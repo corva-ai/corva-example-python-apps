@@ -1,0 +1,1 @@
+git+git://github.com/corva-ai/python-sdk@feature/dc-755_add-task-app#egg=corva_sdk
