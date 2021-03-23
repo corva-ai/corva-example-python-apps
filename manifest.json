@@ -1,0 +1,41 @@
+{
+  "format": 1,
+  "license": {
+    "type": "MIT",
+    "url": "https://www.oandgexample.com/license/"
+  },
+  "developer": {
+    "authors": []
+  },
+  "application": {
+    "type": "task",
+    "key": "provider.formation-evaluation-importer",
+    "visibility": "private",
+    "name": "Formation Evaluation Importer",
+    "category": "analytics",
+    "segments": [
+      "drilling"
+    ]
+  },
+  "settings": {
+    "entrypoint": {
+      "file": "lambda_function",
+      "function": "lambda_handler"
+    }
+  },
+  "environment": {},
+  "datasets": {
+    "provider.formation-evaluation.data": {
+      "permissions": [
+        "read",
+        "write"
+      ]
+    },
+    "provider.formation-evaluation.metadata": {
+      "permissions": [
+        "read",
+        "write"
+      ]
+    }
+  }
+}
