@@ -11,6 +11,7 @@ def formation_evaluation_importer(event: TaskEvent, api: Api) -> None:
     properties = models.EventProperties.parse_obj(event.properties)
 
     try:
+        # Delete old data. New data will be written to the db as a result of this app.
         utils.delete_data_by_file_name(
             api=api,
             file_name=properties.file_name,
