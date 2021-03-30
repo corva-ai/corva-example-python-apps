@@ -56,6 +56,12 @@ def get_file(url: str) -> str:
 def save_data(
     api: Api, data: List[dict], collection: str, provider: str
 ) -> SaveDataReponse:
+    """Saves the data.
+
+    Raises:
+      Exception: if save was unsuccessful.
+    """
+
     response = api.post(f'v1/data/{provider}/{collection}/', data=data)
 
     try:
