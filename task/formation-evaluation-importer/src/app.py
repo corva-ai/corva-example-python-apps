@@ -28,14 +28,14 @@ def formation_evaluation_importer(event: TaskEvent, api: Api) -> None:
 
     timestamp = int(datetime.datetime.now(tz=datetime.timezone.utc).timestamp())
 
-    save_metadata = models.SaveMetadata(
+    formation_evaluation_metadata = models.FormationEvaluationMetadata(
         asset_id=event.asset_id,
         timestamp=timestamp,
         company_id=event.company_id,
         collection=f'{SETTINGS.collection}.metadata',
         app=SETTINGS.app_name,
         provider=SETTINGS.provider,
-        data=models.SaveMetadataData(
+        data=models.FormationEvaluationMetadataData(
             params=parse_result.params,
             well=parse_result.well,
             curve=parse_result.curves,
@@ -47,12 +47,12 @@ def formation_evaluation_importer(event: TaskEvent, api: Api) -> None:
     )
 
     # fail in case of exception
-    save_data_response = utils.save_data(
+    formation_evaluation_metadata_id = utils.save_data(
         api=api,
-        data=[save_metadata.dict()],
+        data=[formation_evaluation_metadata.dict()],
         collection=f'{SETTINGS.collection}.metadata',
         provider=SETTINGS.provider,
-    )
+    ).inserted_ids[0]
 
     for mapped_log_data_chunk in utils.chunker(
         seq=parse_result.mapped_log_data, size=SETTINGS.chunk_size
@@ -61,15 +61,15 @@ def formation_evaluation_importer(event: TaskEvent, api: Api) -> None:
 
         for mapped_log_data in mapped_log_data_chunk:
             save_datas.append(
-                models.SaveData(
+                models.FormationEvaluationData(
                     asset_id=event.asset_id,
                     timestamp=timestamp,
                     company_id=event.company_id,
                     collection=f'{SETTINGS.collection}.data',
                     app=SETTINGS.app_name,
                     provider=SETTINGS.provider,
-                    metadata=models.SaveDataMetadata(
-                        formation_evaluation_id=save_data_response.inserted_ids[0],
+                    metadata=models.FormationEvaluationDataMetadata(
+                        formation_evaluation_id=formation_evaluation_metadata_id,
                         file_name=properties.file_name,
                     ),
                     data=mapped_log_data,

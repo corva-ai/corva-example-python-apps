@@ -4,10 +4,10 @@ import lasio
 
 from src.constants import MNEMONICS, UNIT_BUCKETS, UNITS
 from src.models import (
-    ParseResult,
-    ParseSectionRowResult,
-    SectionRowData,
-    SectionRowMapping,
+    ParsedLasFile,
+    ParsedLasSectionRow,
+    LasSectionRowData,
+    LasSectionRowMapping,
 )
 
 
@@ -16,20 +16,20 @@ def parse_section_row(
     units: Dict[str, str],
     unit_buckets: Dict[str, str],
     mnemonics: Dict[str, str],
-) -> ParseSectionRowResult:
+) -> ParsedLasSectionRow:
     unit_name = row.unit.lower()
     mnemonic_name = row.mnemonic.lower()
 
-    data = SectionRowData(
+    data = LasSectionRowData(
         mnemonic=row.mnemonic, units=row.unit, value=row.value, descr=row.descr
     )
-    mapping = SectionRowMapping(
+    mapping = LasSectionRowMapping(
         mnemonic=mnemonics.get(mnemonic_name, row.mnemonic),
         unit=units.get(unit_name, row.unit),
         bucket=unit_buckets.get(unit_name, unit_buckets['*']),
     )
 
-    return ParseSectionRowResult(data=data, mapping=mapping)
+    return ParsedLasSectionRow(data=data, mapping=mapping)
 
 
 def parse_section(
@@ -37,7 +37,7 @@ def parse_section(
     units: Dict[str, str] = UNITS,
     unit_buckets: Dict[str, str] = UNIT_BUCKETS,
     mnemonics: Dict[str, str] = MNEMONICS,
-) -> List[ParseSectionRowResult]:
+) -> List[ParsedLasSectionRow]:
     return [
         parse_section_row(
             row=row, units=units, unit_buckets=unit_buckets, mnemonics=mnemonics
@@ -75,7 +75,7 @@ def validate_index_curve_mnemonic(
         raise ValueError('The index curve must be depth.')
 
 
-def parse(file: str) -> ParseResult:
+def parse(file: str) -> ParsedLasFile:
     las_file = lasio.read(file, null_policy='none')
 
     validate_index_curve_mnemonic(las_file=las_file)
@@ -88,7 +88,7 @@ def parse(file: str) -> ParseResult:
     # section.
     curve_mnemonics: List[str] = [curve.mnemonic for curve in las_file.curves]
 
-    return ParseResult(
+    return ParsedLasFile(
         n_log_data_rows=len(log_data),
         well=parse_section(section=las_file.well),
         curves=parse_section(section=las_file.curves),

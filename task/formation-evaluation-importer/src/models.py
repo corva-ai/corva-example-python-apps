@@ -13,7 +13,7 @@ class EventProperties(pydantic.BaseModel):
         return self.file_path.name
 
 
-class SectionRowData(pydantic.BaseModel):
+class LasSectionRowData(pydantic.BaseModel):
     """Stores "~V", "~W", "~C" or "~P" las section row data.
 
     More info in "5.2 Line Delimiters"
@@ -26,18 +26,18 @@ class SectionRowData(pydantic.BaseModel):
     descr: str
 
 
-class SectionRowMapping(pydantic.BaseModel):
+class LasSectionRowMapping(pydantic.BaseModel):
     mnemonic: str
     unit: str
     bucket: str
 
 
-class ParseSectionRowResult(pydantic.BaseModel):
-    data: SectionRowData
-    mapping: SectionRowMapping
+class ParsedLasSectionRow(pydantic.BaseModel):
+    data: LasSectionRowData
+    mapping: LasSectionRowMapping
 
 
-class ParseResult(pydantic.BaseModel):
+class ParsedLasFile(pydantic.BaseModel):
     """Stores parsed las file data.
 
     Attributes:
@@ -50,46 +50,46 @@ class ParseResult(pydantic.BaseModel):
     """
 
     n_log_data_rows: int
-    well: List[ParseSectionRowResult]
-    curves: List[ParseSectionRowResult]
-    params: List[ParseSectionRowResult]
+    well: List[ParsedLasSectionRow]
+    curves: List[ParsedLasSectionRow]
+    params: List[ParsedLasSectionRow]
     other: str
     mapped_log_data: List[Dict[str, Union[float, int]]]
 
 
-class SaveMetadataData(pydantic.BaseModel):
-    params: List[ParseSectionRowResult]
-    well: List[ParseSectionRowResult]
-    curve: List[ParseSectionRowResult]
+class FormationEvaluationMetadataData(pydantic.BaseModel):
+    params: List[ParsedLasSectionRow]
+    well: List[ParsedLasSectionRow]
+    curve: List[ParsedLasSectionRow]
     other: str
 
 
-class SaveMetadata(pydantic.BaseModel):
+class FormationEvaluationMetadata(pydantic.BaseModel):
     asset_id: int
     timestamp: int
     company_id: int
     collection: str
     app: str
     provider: str
-    data: SaveMetadataData
+    data: FormationEvaluationMetadataData
     file: str = pydantic.Field(..., alias='file_name')
     records_count: int
     version: int
 
 
-class SaveDataMetadata(pydantic.BaseModel):
+class FormationEvaluationDataMetadata(pydantic.BaseModel):
     formation_evaluation_id: str
     file: str = pydantic.Field(..., alias='file_name')
 
 
-class SaveData(pydantic.BaseModel):
+class FormationEvaluationData(pydantic.BaseModel):
     asset_id: int
     timestamp: int
     company_id: int
     collection: str
     app: str
     provider: str
-    metadata: SaveDataMetadata
+    metadata: FormationEvaluationDataMetadata
     data: Dict[str, Union[float, int]]
     version: int
 
