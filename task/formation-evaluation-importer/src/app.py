@@ -57,10 +57,10 @@ def formation_evaluation_importer(event: TaskEvent, api: Api) -> None:
     for mapped_log_data_chunk in utils.chunker(
         seq=parse_result.mapped_log_data, size=SETTINGS.chunk_size
     ):
-        save_datas = []
+        formation_evaluation_data = []
 
         for mapped_log_data in mapped_log_data_chunk:
-            save_datas.append(
+            formation_evaluation_data.append(
                 models.FormationEvaluationData(
                     asset_id=event.asset_id,
                     timestamp=timestamp,
@@ -79,7 +79,7 @@ def formation_evaluation_importer(event: TaskEvent, api: Api) -> None:
 
         utils.save_data(
             api=api,
-            data=save_datas,
+            data=formation_evaluation_data,
             collection=SETTINGS.data_collection,
             provider=SETTINGS.provider,
         )
