@@ -8,5 +8,13 @@ class Settings(pydantic.BaseSettings):
     app_name: str = 'formation-evaluation-importer-task'
     chunk_size: int = 667
 
+    @property
+    def data_collection(self) -> str:
+        return f'{self.collection}.data'
+
+    @property
+    def metadata_collection(self) -> str:
+        return f'{self.collection}.metadata'
+
 
 SETTINGS = Settings()

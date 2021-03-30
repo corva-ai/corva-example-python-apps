@@ -32,7 +32,7 @@ def formation_evaluation_importer(event: TaskEvent, api: Api) -> None:
         asset_id=event.asset_id,
         timestamp=timestamp,
         company_id=event.company_id,
-        collection=f'{SETTINGS.collection}.metadata',
+        collection=SETTINGS.metadata_collection,
         app=SETTINGS.app_name,
         provider=SETTINGS.provider,
         data=models.FormationEvaluationMetadataData(
@@ -50,7 +50,7 @@ def formation_evaluation_importer(event: TaskEvent, api: Api) -> None:
     formation_evaluation_metadata_id = utils.save_data(
         api=api,
         data=[formation_evaluation_metadata.dict()],
-        collection=f'{SETTINGS.collection}.metadata',
+        collection=SETTINGS.metadata_collection,
         provider=SETTINGS.provider,
     ).inserted_ids[0]
 
@@ -65,7 +65,7 @@ def formation_evaluation_importer(event: TaskEvent, api: Api) -> None:
                     asset_id=event.asset_id,
                     timestamp=timestamp,
                     company_id=event.company_id,
-                    collection=f'{SETTINGS.collection}.data',
+                    collection=SETTINGS.data_collection,
                     app=SETTINGS.app_name,
                     provider=SETTINGS.provider,
                     metadata=models.FormationEvaluationDataMetadata(
@@ -80,6 +80,6 @@ def formation_evaluation_importer(event: TaskEvent, api: Api) -> None:
         utils.save_data(
             api=api,
             data=save_datas,
-            collection=f'{SETTINGS.collection}.data',
+            collection=SETTINGS.data_collection,
             provider=SETTINGS.provider,
         )
