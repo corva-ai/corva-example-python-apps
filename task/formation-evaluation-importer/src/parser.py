@@ -4,10 +4,10 @@ import lasio
 
 from src.constants import MNEMONICS, UNIT_BUCKETS, UNITS
 from src.models import (
-    ParsedLasFile,
-    ParsedLasSectionRow,
     LasSectionRowData,
     LasSectionRowMapping,
+    ParsedLasFile,
+    ParsedLasSectionRow,
 )
 
 
@@ -18,13 +18,12 @@ def parse_section_row(
     mnemonics: Dict[str, str],
 ) -> ParsedLasSectionRow:
     unit_name = row.unit.lower()
-    mnemonic_name = row.mnemonic.lower()
 
     data = LasSectionRowData(
         mnemonic=row.mnemonic, units=row.unit, value=row.value, descr=row.descr
     )
     mapping = LasSectionRowMapping(
-        mnemonic=mnemonics.get(mnemonic_name, row.mnemonic),
+        mnemonic=mnemonics.get(row.mnemonic, row.mnemonic),
         unit=units.get(unit_name, row.unit),
         bucket=unit_buckets.get(unit_name, unit_buckets['*']),
     )
@@ -52,7 +51,7 @@ def map_log_data(
     mnemonics: Dict[str, str] = MNEMONICS,
 ) -> List[Dict[str, Union[float, int]]]:
     curve_mnemonics = [
-        mnemonics.get(mnemonic.lower(), mnemonic) for mnemonic in curve_mnemonics
+        mnemonics.get(mnemonic, mnemonic) for mnemonic in curve_mnemonics
     ]
 
     result = [dict(zip(curve_mnemonics, log_row)) for log_row in log_data]
@@ -71,12 +70,12 @@ def validate_index_curve_mnemonic(
     """
     curves = las_file.curves
 
-    if curves and mnemonics.get(curves[0].mnemonic.lower()) != 'md':
+    if curves and mnemonics.get(curves[0].mnemonic) != 'md':
         raise ValueError('The index curve must be depth.')
 
 
 def parse(file: str) -> ParsedLasFile:
-    las_file = lasio.read(file, null_policy='none')
+    las_file = lasio.read(file, null_policy='none', mnemonic_case='lower')
 
     validate_index_curve_mnemonic(las_file=las_file)
 
