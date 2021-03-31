@@ -26,8 +26,7 @@ def delete_data_by_file_name(
     """
 
     try:
-        # delete data first
-        api.delete(
+        data_response = api.delete(
             f'v1/data/{provider}/{collection}.data/',
             params={
                 'query': json.dumps(
@@ -37,13 +36,15 @@ def delete_data_by_file_name(
                     }
                 )
             },
-        ).raise_for_status()
+        )
 
-        # delete metadata only on data delete success
-        api.delete(
+        metadata_response = api.delete(
             f'v1/data/{provider}/{collection}.metadata/',
             params={'query': json.dumps({'asset_id': asset_id, 'file': file_name})},
-        ).raise_for_status()
+        )
+
+        data_response.raise_for_status()
+        metadata_response.raise_for_status()
     except requests.HTTPError as exc:
         raise Exception(f'Could not delete {file_name=} for {asset_id=}.') from exc
 
