@@ -70,7 +70,7 @@ def validate_index_curve_mnemonic(
     """
     curves = las_file.curves
 
-    if curves and mnemonics.get(curves[0].mnemonic) != 'md':
+    if mnemonics.get(curves[0].mnemonic) != 'md':
         raise ValueError('The index curve must be depth.')
 
 
