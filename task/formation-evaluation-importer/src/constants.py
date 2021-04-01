@@ -65,7 +65,6 @@ _UNIT_BUCKETS = {
     'Concentration': _UNITS['ppm'],
     'Velocity': _UNITS['m/s'] + _UNITS['ft/s'],
     'Pressure': _UNITS['kPa'] + _UNITS['bar'] + _UNITS['psi'],
-    'Other': ['*'],
 }
 
 _MNEMONICS = {
