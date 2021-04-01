@@ -1,4 +1,4 @@
-corva-sdk==0.0.15
+git+git://github.com/corva-ai/python-sdk@feature/dc-1236_simplify-app-testing#egg=corva_sdk
 lasio==0.28
 # lasio depends on numpy, but doesn't specify supported version ranges, which is error prone.
 # Lock numpy version to avoid errors.
