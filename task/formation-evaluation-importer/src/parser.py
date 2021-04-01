@@ -2,7 +2,7 @@ from typing import Dict, List, Union
 
 import lasio
 
-from src.constants import MNEMONICS, UNIT_BUCKETS, UNITS
+from src.constants import MNEMONICS
 from src.models import (
     LasSectionRowData,
     LasSectionRowMapping,
@@ -11,33 +11,13 @@ from src.models import (
 )
 
 
-def parse_section_row(
-    row: lasio.HeaderItem,
-    units: Dict[str, str],
-    unit_buckets: Dict[str, str],
-    mnemonics: Dict[str, str],
-) -> ParsedLasSectionRow:
-    unit_name = row.unit.lower()
-
-    data = LasSectionRowData.parse_obj(row.__dict__)
-    mapping = LasSectionRowMapping(
-        mnemonic=mnemonics.get(row.mnemonic, row.mnemonic),
-        unit=units.get(unit_name, row.unit),
-        bucket=unit_buckets.get(unit_name, unit_buckets['*']),
-    )
-
-    return ParsedLasSectionRow(data=data, mapping=mapping)
-
-
 def parse_section(
     section: lasio.SectionItems,
-    units: Dict[str, str] = UNITS,
-    unit_buckets: Dict[str, str] = UNIT_BUCKETS,
-    mnemonics: Dict[str, str] = MNEMONICS,
 ) -> List[ParsedLasSectionRow]:
     return [
-        parse_section_row(
-            row=row, units=units, unit_buckets=unit_buckets, mnemonics=mnemonics
+        ParsedLasSectionRow(
+            data=LasSectionRowData.parse_obj(row.__dict__),
+            mapping=LasSectionRowMapping.parse_obj(row.__dict__),
         )
         for row in section
     ]

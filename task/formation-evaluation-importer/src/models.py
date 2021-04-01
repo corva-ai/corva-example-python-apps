@@ -3,6 +3,8 @@ from typing import Dict, List, Union
 
 import pydantic
 
+from src.constants import MNEMONICS, UNIT_BUCKETS, UNITS
+
 
 class EventProperties(pydantic.BaseModel):
     file_path: pathlib.Path = pydantic.Field(..., alias='file_name')
@@ -29,7 +31,19 @@ class LasSectionRowData(pydantic.BaseModel):
 class LasSectionRowMapping(pydantic.BaseModel):
     mnemonic: str
     unit: str
-    bucket: str
+    bucket: str = pydantic.Field(..., alias='unit')
+
+    @pydantic.validator('mnemonic')
+    def set_mnemonic(cls, v: str) -> str:
+        return MNEMONICS.get(v.lower(), v)
+
+    @pydantic.validator('unit')
+    def set_unit(cls, v: str) -> str:
+        return UNITS.get(v.lower(), v)
+
+    @pydantic.validator('bucket')
+    def set_bucket(cls, v: str) -> str:
+        return UNIT_BUCKETS.get(v.lower(), 'Other')
 
 
 class ParsedLasSectionRow(pydantic.BaseModel):
