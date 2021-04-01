@@ -53,7 +53,8 @@ def test_delete_data_by_file_name_raises(
     pytest.raises(Exception, app_runner, lambda_handler, event)
 
     logger_patch.assert_called_once_with(
-        f'Could not delete file_name={repr(properties.file_name)} for asset_id={event.asset_id}.'
+        f'Could not delete file_name={repr(properties.file_name)} '
+        f'for asset_id={event.asset_id}.'
     )
 
 
@@ -70,7 +71,7 @@ def test_delete_data_by_file_name_raises(
         ],
         [
             ('random', [1]),
-            pytest.raises(Exception, match='The index curve must be depth\.'),
+            pytest.raises(Exception, match=r'The index curve must be depth\.'),
         ],
     ),
 )
@@ -259,7 +260,7 @@ def test_fail_if_could_not_save_metadata(
     requests_mock.post(re.compile(r'v1/data/.+/.+\.metadata/'), status_code=400)
 
     pytest.raises(
-        Exception, app_runner, lambda_handler, event, match='Could not save the data\.'
+        Exception, app_runner, lambda_handler, event, match=r'Could not save the data\.'
     )
 
 
@@ -345,5 +346,5 @@ def test_fail_if_could_not_save_data(
     requests_mock.post(re.compile(r'v1/data/.+/.+\.data/'), status_code=400)
 
     pytest.raises(
-        Exception, app_runner, lambda_handler, event, match='Could not save the data\.'
+        Exception, app_runner, lambda_handler, event, match=r'Could not save the data\.'
     )
