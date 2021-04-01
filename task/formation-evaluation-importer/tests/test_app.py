@@ -232,7 +232,7 @@ def test_correct_formation_evaluation_metadata(
             other='Other data.',
         ),
         file_name=properties.file_name,
-        records_count=2,
+        records_count=3,
         version=SETTINGS.version,
     )
 
@@ -292,7 +292,7 @@ def test_correct_formation_evaluation_data(
         status_code=200,
         json={'inserted_ids': ['0']},
     )
-    mocker.patch.object(SETTINGS, 'chunk_size', 1)
+    mocker.patch.object(SETTINGS, 'chunk_size', 2)
 
     with freezegun.freeze_time("2021-03-26 00:00:00", tz_offset=1):
         timestamp = int(datetime.datetime.now(tz=datetime.timezone.utc).timestamp())
@@ -312,12 +312,16 @@ def test_correct_formation_evaluation_data(
             data=data,
             version=SETTINGS.version,
         ).dict()
-        for data in [{'md': 1, 'curve': 3}, {'md': 2, 'curve': 4}]
+        for data in [
+            {'md': 1, 'curve': 4},
+            {'md': 2, 'curve': 5},
+            {'md': 3, 'curve': 6},
+        ]
     ]
 
     assert len(post_mock.request_history) == 2
-    for request, expected_fed in zip(post_mock.request_history, excpected_feds):
-        assert request.json() == [expected_fed]
+    assert post_mock.request_history[0].json() == excpected_feds[:2]
+    assert post_mock.request_history[1].json() == excpected_feds[2:]
 
 
 def test_fail_if_could_not_save_data(
