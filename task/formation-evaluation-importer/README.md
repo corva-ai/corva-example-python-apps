@@ -25,3 +25,9 @@ $ pip install -r dev-requirements.txt
 ```console
 $ flake8
 ```
+
+#### Run tests
+
+```console
+$ coverage run --branch -m pytest ; coverage html --include=src/*
+```
