@@ -21,7 +21,7 @@ class LasSectionRowData(pydantic.BaseModel):
     """
 
     mnemonic: str
-    units: str
+    units: str = pydantic.Field(..., alias='unit')
     value: str
     descr: str
 

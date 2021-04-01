@@ -19,9 +19,7 @@ def parse_section_row(
 ) -> ParsedLasSectionRow:
     unit_name = row.unit.lower()
 
-    data = LasSectionRowData(
-        mnemonic=row.mnemonic, units=row.unit, value=row.value, descr=row.descr
-    )
+    data = LasSectionRowData.parse_obj(row.__dict__)
     mapping = LasSectionRowMapping(
         mnemonic=mnemonics.get(row.mnemonic, row.mnemonic),
         unit=units.get(unit_name, row.unit),
