@@ -1,5 +1,4 @@
 import json
-import logging
 import urllib.request
 from typing import Iterator, List
 
@@ -7,8 +6,6 @@ import requests
 from corva import Api
 
 from src.models import SaveDataReponse
-
-LOGGER = logging.getLogger('main')
 
 
 def chunker(seq: list, size: int) -> Iterator[list]:
