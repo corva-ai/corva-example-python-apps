@@ -2,6 +2,7 @@ import datetime
 
 from corva import Api, TaskEvent
 
+from src.api import get_file, save_data, delete_data_by_file_name
 from src import models, parser, utils
 from src.configuration import SETTINGS
 from src.logger import LOGGER
@@ -12,7 +13,7 @@ def formation_evaluation_importer(event: TaskEvent, api: Api) -> None:
 
     try:
         # Delete old data. New data will be written to the db as a result of this app.
-        utils.delete_data_by_file_name(
+        delete_data_by_file_name(
             api=api,
             file_name=properties.file_name,
             asset_id=event.asset_id,
@@ -22,7 +23,7 @@ def formation_evaluation_importer(event: TaskEvent, api: Api) -> None:
     except Exception as exc:
         LOGGER.error(str(exc))
 
-    file = utils.get_file(url=properties.file_url)
+    file = get_file(url=properties.file_url)
 
     parse_result = parser.parse(file=file)
 
@@ -47,7 +48,7 @@ def formation_evaluation_importer(event: TaskEvent, api: Api) -> None:
     )
 
     # fail in case of exception
-    formation_evaluation_metadata_id = utils.save_data(
+    formation_evaluation_metadata_id = save_data(
         api=api,
         data=[formation_evaluation_metadata.dict()],
         collection=SETTINGS.metadata_collection,
@@ -77,7 +78,7 @@ def formation_evaluation_importer(event: TaskEvent, api: Api) -> None:
                 ).dict()
             )
 
-        utils.save_data(
+        save_data(
             api=api,
             data=formation_evaluation_data,
             collection=SETTINGS.data_collection,

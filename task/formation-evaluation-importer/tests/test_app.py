@@ -142,8 +142,8 @@ def test_validate_index_curve_mnemonic(
     out = io.StringIO()
     las_file.write(out)
 
-    mocker.patch('src.utils.delete_data_by_file_name')
-    mocker.patch('src.utils.get_file', return_value=out.getvalue())
+    mocker.patch('src.app.delete_data_by_file_name')
+    mocker.patch('src.app.get_file', return_value=out.getvalue())
     # return early by throwing an exception
     mocker.patch.object(
         lasio.LASFile, 'data', new_callable=mocker.PropertyMock, side_effect=Exception
@@ -167,8 +167,8 @@ def test_correct_formation_evaluation_metadata(
         properties=properties.dict(by_alias=True),
     )
 
-    mocker.patch('src.utils.delete_data_by_file_name')
-    mocker.patch('src.utils.get_file', return_value=las_file)
+    mocker.patch('src.app.delete_data_by_file_name')
+    mocker.patch('src.app.get_file', return_value=las_file)
     # return early by throwing exception
     post_mock = requests_mock.post(
         re.compile(r'v1/data/.+/.+\.metadata/'), status_code=400
@@ -302,9 +302,9 @@ def test_fail_if_could_not_save_metadata(
         ).dict(by_alias=True),
     )
 
-    mocker.patch('src.utils.delete_data_by_file_name')
+    mocker.patch('src.app.delete_data_by_file_name')
     mocker.patch(
-        'src.utils.get_file',
+        'src.app.get_file',
         return_value=LAS_V_2_0,
     )
     requests_mock.post(re.compile(r'v1/data/.+/.+\.metadata/'), status_code=400)
@@ -328,8 +328,8 @@ def test_correct_formation_evaluation_data(
         properties=properties.dict(by_alias=True),
     )
 
-    mocker.patch('src.utils.delete_data_by_file_name')
-    mocker.patch('src.utils.get_file', return_value=las_file)
+    mocker.patch('src.app.delete_data_by_file_name')
+    mocker.patch('src.app.get_file', return_value=las_file)
     requests_mock.post(
         re.compile(r'v1/data/.+/.+\.metadata/'),
         status_code=200,
@@ -387,9 +387,9 @@ def test_fail_if_could_not_save_data(
         ).dict(by_alias=True),
     )
 
-    mocker.patch('src.utils.delete_data_by_file_name')
+    mocker.patch('src.app.delete_data_by_file_name')
     mocker.patch(
-        'src.utils.get_file',
+        'src.app.get_file',
         return_value=LAS_V_2_0,
     )
     requests_mock.post(
