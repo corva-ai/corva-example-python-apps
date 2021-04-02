@@ -1,9 +1,10 @@
 import datetime
 
+import requests
 from corva import Api, TaskEvent
 
-from src.api import get_file, save_data, delete_data_by_file_name
 from src import models, parser, utils
+from src.api import delete_data_by_file_name, get_file, save_data
 from src.configuration import SETTINGS
 from src.logger import LOGGER
 
@@ -20,8 +21,11 @@ def formation_evaluation_importer(event: TaskEvent, api: Api) -> None:
             collection=SETTINGS.collection,
             provider=SETTINGS.provider,
         )
-    except Exception as exc:
-        LOGGER.error(str(exc))
+    except requests.HTTPError:
+        LOGGER.error(
+            f'Could not delete file_name={properties.file_name}'
+            f' for asset_id={event.asset_id}.'
+        )
 
     file = get_file(url=properties.file_url)
 

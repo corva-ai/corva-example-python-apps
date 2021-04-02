@@ -14,31 +14,28 @@ def delete_data_by_file_name(
     """Deletes data for asset id by file name.
 
     Raises:
-      Exception: if delete was unsuccessful.
+      requests.HTTPError: if delete was unsuccessful.
     """
 
-    try:
-        data_response = api.delete(
-            f'v1/data/{provider}/{collection}.data/',
-            params={
-                'query': json.dumps(
-                    {
-                        'asset_id': asset_id,
-                        'metadata.file': file_name,
-                    }
-                )
-            },
-        )
+    data_response = api.delete(
+        f'v1/data/{provider}/{collection}.data/',
+        params={
+            'query': json.dumps(
+                {
+                    'asset_id': asset_id,
+                    'metadata.file': file_name,
+                }
+            )
+        },
+    )
 
-        metadata_response = api.delete(
-            f'v1/data/{provider}/{collection}.metadata/',
-            params={'query': json.dumps({'asset_id': asset_id, 'file': file_name})},
-        )
+    metadata_response = api.delete(
+        f'v1/data/{provider}/{collection}.metadata/',
+        params={'query': json.dumps({'asset_id': asset_id, 'file': file_name})},
+    )
 
-        data_response.raise_for_status()
-        metadata_response.raise_for_status()
-    except requests.HTTPError as exc:
-        raise Exception(f'Could not delete {file_name=} for {asset_id=}.') from exc
+    data_response.raise_for_status()
+    metadata_response.raise_for_status()
 
 
 def get_file(url: str) -> str:

@@ -103,7 +103,7 @@ def test_behavior_if_delete_data_fails(
     pytest.raises(Exception, app_runner, lambda_handler, event)
 
     logger_patch.assert_called_once_with(
-        f'Could not delete file_name={repr(properties.file_name)} '
+        f'Could not delete file_name={properties.file_name} '
         f'for asset_id={event.asset_id}.'
     )
 
