@@ -1,6 +1,6 @@
 import datetime
+import inspect
 import io
-import pathlib
 import re
 
 import freezegun
@@ -22,6 +22,54 @@ from src.models import (
     LasSectionRowData,
     LasSectionRowMapping,
     ParsedLasSectionRow,
+)
+
+LAS_V_1_2 = inspect.cleandoc(
+    """
+    ~Version ---------------------------------------------------
+    VERS.   1.2 : CWLS LOG ASCII STANDARD - VERSION 1.2
+    WRAP.    NO : One line per depth step
+    DLM . SPACE : Column Data Section Delimiter
+    ~Well ------------------------------------------------------
+    DEPT  .FEET   : 
+    WELL  .WELL   : 
+    ~Curve Information -----------------------------------------
+    DEPT  .FEET   : 
+    CURVE .CURVE  : 
+    ~Params ----------------------------------------------------
+    DEPT  .FEET   : 
+    PARAM .PARAM  : 
+    ~Other -----------------------------------------------------
+    Other data.
+    ~ASCII -----------------------------------------------------
+        1.00000    4.00000
+        2.00000    5.00000
+        3.00000    6.00000
+    """
+)
+
+LAS_V_2_0 = inspect.cleandoc(
+    """
+    ~Version ---------------------------------------------------
+    VERS.   2.0 : CWLS log ASCII Standard -VERSION 2.0
+    WRAP.    NO : One line per depth step
+    DLM . SPACE : Column Data Section Delimiter
+    ~Well ------------------------------------------------------
+    DEPT  .FEET    : 
+    WELL  .WELL    : 
+    ~Curve Information -----------------------------------------
+    DEPT  .FEET    : 
+    CURVE .CURVE   : 
+    ~Params ----------------------------------------------------
+    DEPT  .FEET    : 
+    PARAM .PARAM   : 
+    ~Other -----------------------------------------------------
+    Other data.
+    ~ASCII -----------------------------------------------------
+        1.00000    4.00000
+        2.00000    5.00000
+        3.00000    6.00000
+    """
 )
 
 
@@ -103,9 +151,7 @@ def test_validate_index_curve_mnemonic(
         app_runner(lambda_handler, event)
 
 
-@pytest.mark.parametrize(
-    'las_file', ('tests/data/test-v1.2.las', 'tests/data/test-v2.0.las')
-)
+@pytest.mark.parametrize('las_file', (LAS_V_1_2, LAS_V_2_0))
 def test_correct_formation_evaluation_metadata(
     las_file,
     mocker: MockerFixture,
@@ -120,7 +166,7 @@ def test_correct_formation_evaluation_metadata(
     )
 
     mocker.patch('src.utils.delete_data_by_file_name')
-    mocker.patch('src.utils.get_file', return_value=pathlib.Path(las_file).read_text())
+    mocker.patch('src.utils.get_file', return_value=las_file)
     # return early by throwing exception
     post_mock = requests_mock.post(
         re.compile(r'v1/data/.+/.+\.metadata/'), status_code=400
@@ -257,7 +303,7 @@ def test_fail_if_could_not_save_metadata(
     mocker.patch('src.utils.delete_data_by_file_name')
     mocker.patch(
         'src.utils.get_file',
-        return_value=pathlib.Path('tests/data/test-v2.0.las').read_text(),
+        return_value=LAS_V_2_0,
     )
     requests_mock.post(re.compile(r'v1/data/.+/.+\.metadata/'), status_code=400)
 
@@ -266,9 +312,7 @@ def test_fail_if_could_not_save_metadata(
     )
 
 
-@pytest.mark.parametrize(
-    'las_file', ('tests/data/test-v1.2.las', 'tests/data/test-v2.0.las')
-)
+@pytest.mark.parametrize('las_file', (LAS_V_1_2, LAS_V_2_0))
 def test_correct_formation_evaluation_data(
     las_file,
     mocker: MockerFixture,
@@ -283,7 +327,7 @@ def test_correct_formation_evaluation_data(
     )
 
     mocker.patch('src.utils.delete_data_by_file_name')
-    mocker.patch('src.utils.get_file', return_value=pathlib.Path(las_file).read_text())
+    mocker.patch('src.utils.get_file', return_value=las_file)
     requests_mock.post(
         re.compile(r'v1/data/.+/.+\.metadata/'),
         status_code=200,
@@ -344,7 +388,7 @@ def test_fail_if_could_not_save_data(
     mocker.patch('src.utils.delete_data_by_file_name')
     mocker.patch(
         'src.utils.get_file',
-        return_value=pathlib.Path('tests/data/test-v2.0.las').read_text(),
+        return_value=LAS_V_2_0,
     )
     requests_mock.post(
         re.compile(r'v1/data/.+/.+\.metadata/'),
