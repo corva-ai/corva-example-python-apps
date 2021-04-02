@@ -38,6 +38,8 @@ def delete_data_by_file_name(
 
 
 def get_file(url: str) -> str:
+    """Downloads file and returns its contents."""
+
     with urllib.request.urlopen(url) as file:
         return file.read().decode()
 
