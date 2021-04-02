@@ -31,14 +31,14 @@ LAS_V_1_2 = inspect.cleandoc(
     WRAP.    NO : One line per depth step
     DLM . SPACE : Column Data Section Delimiter
     ~Well ------------------------------------------------------
-    DEPT  .FEET   : 
-    WELL  .WELL   : 
+    DEPT  .FEET   :
+    WELL  .WELL   :
     ~Curve Information -----------------------------------------
-    DEPT  .FEET   : 
-    CURVE .CURVE  : 
+    DEPT  .FEET   :
+    CURVE .CURVE  :
     ~Params ----------------------------------------------------
-    DEPT  .FEET   : 
-    PARAM .PARAM  : 
+    DEPT  .FEET   :
+    PARAM .PARAM  :
     ~Other -----------------------------------------------------
     Other data.
     ~ASCII -----------------------------------------------------
@@ -55,14 +55,14 @@ LAS_V_2_0 = inspect.cleandoc(
     WRAP.    NO : One line per depth step
     DLM . SPACE : Column Data Section Delimiter
     ~Well ------------------------------------------------------
-    DEPT  .FEET    : 
-    WELL  .WELL    : 
+    DEPT  .FEET    :
+    WELL  .WELL    :
     ~Curve Information -----------------------------------------
-    DEPT  .FEET    : 
-    CURVE .CURVE   : 
+    DEPT  .FEET    :
+    CURVE .CURVE   :
     ~Params ----------------------------------------------------
-    DEPT  .FEET    : 
-    PARAM .PARAM   : 
+    DEPT  .FEET    :
+    PARAM .PARAM   :
     ~Other -----------------------------------------------------
     Other data.
     ~ASCII -----------------------------------------------------
