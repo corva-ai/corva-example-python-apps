@@ -80,12 +80,14 @@ LAS_V_2_0 = inspect.cleandoc(
         re.compile(r'v1/data/.+/.+\.metadata/'),
     ),
 )
-def test_delete_data_by_file_name_raises(
+def test_behavior_if_delete_data_fails(
     matcher,
     app_runner,
     requests_mock: RequestsMocker,
     mocker: MockerFixture,
 ):
+    """App logs the error message and continues the execution."""
+
     properties = EventProperties(file_name='file/name', file_url='https://localhost')
     event = TaskEvent(
         asset_id=0,
