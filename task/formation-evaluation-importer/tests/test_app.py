@@ -14,6 +14,7 @@ from requests_mock import Mocker as RequestsMocker
 
 from lambda_function import lambda_handler
 from src.configuration import SETTINGS
+from src.logger import LOGGER
 from src.models import (
     EventProperties,
     FormationEvaluationData,
@@ -98,15 +99,17 @@ def test_behavior_if_delete_data_fails(
 
     requests_mock.delete(requests_mock_lib.ANY, status_code=200)
     requests_mock.delete(matcher, status_code=400)
-    # return early by patching logger to raise
-    logger_patch = mocker.patch('src.app.LOGGER.error', side_effect=Exception)
+    # return early by patching get_file to raise
+    logger_spy = mocker.spy(LOGGER, 'error')
+    get_file_patch = mocker.patch('src.app.get_file', side_effect=Exception)
 
     pytest.raises(Exception, app_runner, lambda_handler, event)
 
-    logger_patch.assert_called_once_with(
+    logger_spy.assert_called_once_with(
         f'Could not delete file_name={properties.file_name} '
         f'for asset_id={event.asset_id}.'
     )
+    get_file_patch.assert_called_once()
 
 
 @pytest.mark.parametrize(
