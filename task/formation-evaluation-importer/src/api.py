@@ -2,7 +2,6 @@ import json
 import urllib.request
 from typing import List
 
-import requests
 from corva import Api
 
 from src.models import SaveDataReponse
@@ -14,7 +13,7 @@ def delete_data_by_file_name(
     """Deletes data for asset id by file name.
 
     Raises:
-      requests.HTTPError: if delete was unsuccessful.
+        requests.HTTPError: if delete was unsuccessful.
     """
 
     data_response = api.delete(
@@ -49,14 +48,11 @@ def save_data(
     """Saves the data.
 
     Raises:
-      Exception: if save was unsuccessful.
+        requests.HTTPError: if save was unsuccessful.
     """
 
     response = api.post(f'v1/data/{provider}/{collection}/', data=data)
 
-    try:
-        response.raise_for_status()
-    except requests.HTTPError as exc:
-        raise Exception('Could not save the data.') from exc
+    response.raise_for_status()
 
     return SaveDataReponse(**response.json())

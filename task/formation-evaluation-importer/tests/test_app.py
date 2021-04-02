@@ -6,6 +6,7 @@ import re
 import freezegun
 import lasio
 import pytest
+import requests
 import requests_mock as requests_mock_lib
 from corva import TaskEvent
 from pytest_mock import MockerFixture
@@ -399,6 +400,4 @@ def test_fail_if_could_not_save_data(
     )
     requests_mock.post(re.compile(r'v1/data/.+/.+\.data/'), status_code=400)
 
-    pytest.raises(
-        Exception, app_runner, lambda_handler, event, match=r'Could not save the data\.'
-    )
+    pytest.raises(requests.HTTPError, app_runner, lambda_handler, event)
