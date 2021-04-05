@@ -21,7 +21,10 @@
     "entrypoint": {
       "file": "lambda_function",
       "function": "lambda_handler"
-    }
+    },
+    "timeout": 120,
+    "memory": 128,
+    "runtime": "python3.8"
   },
   "environment": {},
   "datasets": {
