@@ -1,0 +1,7 @@
+corva-sdk==0.0.16
+lasio==0.28
+# lasio depends on numpy, but doesn't specify supported version ranges, which is error prone.
+# Lock numpy version to avoid errors.
+numpy==1.20.1
+pydantic==1.8.1
+requests==2.25.1
