@@ -88,7 +88,11 @@ def test_behavior_if_delete_data_fails(
     requests_mock: RequestsMocker,
     mocker: MockerFixture,
 ):
-    """App logs the error message and continues the execution."""
+    """App logs the error message and continues the execution.
+
+    Before processing new las file, app needs to delete old data from the database.
+    If this delete fails we should log the error message and continue the execution.
+    """
 
     properties = EventProperties(file_name='file/name', file_url='https://localhost')
     event = TaskEvent(
@@ -99,8 +103,9 @@ def test_behavior_if_delete_data_fails(
 
     requests_mock.delete(requests_mock_lib.ANY, status_code=200)
     requests_mock.delete(matcher, status_code=400)
-    # return early by patching get_file to raise
     logger_spy = mocker.spy(LOGGER, 'error')
+    # this function is called next, after the exception handling.
+    # return early by patching it to raise.
     get_file_patch = mocker.patch('src.app.get_file', side_effect=Exception)
 
     pytest.raises(Exception, app_runner, lambda_handler, event)
