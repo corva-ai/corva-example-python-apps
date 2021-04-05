@@ -184,7 +184,7 @@ def test_correct_formation_evaluation_metadata(
     )
 
     # freeze time with non-zero tz_offset to validate,
-    # that timestamp is takes from timezone aware datetime instance.
+    # that timestamp is taken from timezone aware datetime instance.
     with freezegun.freeze_time("2021-03-26 00:00:00", tz_offset=1):
         timestamp = int(datetime.datetime.now(tz=datetime.timezone.utc).timestamp())
         pytest.raises(Exception, app_runner, lambda_handler, event)
@@ -352,7 +352,7 @@ def test_correct_formation_evaluation_data(
     mocker.patch.object(SETTINGS, 'chunk_size', 2)
 
     # freeze time with non-zero tz_offset to validate,
-    # that timestamp is takes from timezone aware datetime instance.
+    # that timestamp is taken from timezone aware datetime instance.
     with freezegun.freeze_time("2021-03-26 00:00:00", tz_offset=1):
         timestamp = int(datetime.datetime.now(tz=datetime.timezone.utc).timestamp())
         app_runner(lambda_handler, event)
