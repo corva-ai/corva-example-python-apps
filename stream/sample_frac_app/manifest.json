@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "license": {
+    "type": "MIT",
+    "url": "https://www.oandgexample.com/license/"
+  },
+  "developer": {
+    "authors": []
+  },
+  "application": {
+    "type": "stream",
+    "key": "big-data-energy.sample_frac_app",
+    "visibility": "private",
+    "name": "Sample Frac App",
+    "category": "analytics",
+    "segments": [
+      "completion"
+    ]
+  },
+  "settings": {
+    "entrypoint": {
+      "file": "lambda_function",
+      "function": "lambda_handler"
+    },
+    "timeout": 120,
+    "memory": 128,
+    "runtime": "python3.8"
+  },
+  "environment": {},
+  "datasets": {}
+}

@@ -1,0 +1,38 @@
+{
+  "format": 1,
+  "license": {
+    "type": "MIT",
+    "url": "https://www.oandgexample.com/license/"
+  },
+  "developer": {
+    "authors": []
+  },
+  "application": {
+    "type": "stream",
+    "key": "big-data-energy.sample_drilling_stream_app",
+    "visibility": "private",
+    "name": "Sample Drilling Stream App",
+    "category": "analytics",
+    "segments": [
+      "drilling"
+    ]
+  },
+  "settings": {
+    "entrypoint": {
+      "file": "lambda_function",
+      "function": "lambda_handler"
+    },
+    "timeout": 120,
+    "memory": 128,
+    "runtime": "python3.8"
+  },
+  "environment": {},
+  "datasets": {
+    "big-data-energy.sample-drilling-stream-collection": {
+      "permissions": [
+        "read",
+        "write"
+      ]
+    }
+  }
+}
