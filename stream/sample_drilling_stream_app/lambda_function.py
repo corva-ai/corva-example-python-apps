@@ -1,9 +1,10 @@
-from corva import Corva
+from corva import Api, Cache, Logger, StreamTimeEvent, stream
 
 from src.app import sample_drilling_stream_app
 
 
-def lambda_handler(event, context):
-    """The main entry point of the AWS Lambda function"""
+@stream
+def lambda_handler(event: StreamTimeEvent, api: Api, cache: Cache):
 
-    return Corva(context).stream(sample_drilling_stream_app, event)
+    Logger.info('App Starts')
+    return sample_drilling_stream_app(event, api, cache)

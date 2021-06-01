@@ -36,6 +36,14 @@ def sample_drilling_scheduler_app(event: ScheduledEvent, api: Api, cache: Cache)
     mean_weight_on_bit = statistics.mean(record.get("data", {}).get("weight_on_bit", 0) for record in records)
     company_id = records[0].get("company_id")
 
+    # Getting last exported timestamp from redis
+    last_exported_timestamp = int(cache.load(key='last_exported_timestamp') or 0)
+
+    # Making sure we are not processing duplicate data
+    if end_time <= last_exported_timestamp:
+        Logger.debug(f"Already processed data until {last_exported_timestamp=}")
+        return None
+
     # Building the required output
     output = {
         "timestamp": end_time,
@@ -51,10 +59,16 @@ def sample_drilling_scheduler_app(event: ScheduledEvent, api: Api, cache: Cache)
         "version": SETTINGS.version
     }
 
-    Logger.debug(f"asset_id {asset_id} company_id {company_id}")
-    Logger.debug(f"start_timestamp {start_time} end_timestamp {end_time} record_count {record_count}")
+    Logger.debug(f"{asset_id=} {company_id=}")
+    Logger.debug(f"{start_time=} {end_time=} {record_count=}")
+    Logger.debug(f"{output=}")
 
-    # if request fails, lambda will be reinvoked. so no exception handling
+    # if request fails, lambda will be re-invoked. so no exception handling
     api.post(
         f"api/v1/data/{SETTINGS.provider}/{SETTINGS.output_collection}/", data=[output],
     ).raise_for_status()
+
+    # Storing the output timestamp to cache
+    cache.store(key='last_exported_timestamp', value=output.get("timestamp"))
+
+    return output

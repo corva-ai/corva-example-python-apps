@@ -1,9 +1,10 @@
-from corva import Corva
+from corva import Api, Cache, Logger, ScheduledEvent, scheduled
 
 from src.app import sample_drilling_scheduler_app
 
 
-def lambda_handler(event, context):
-    """The main entry point of the AWS Lambda function"""
+@scheduled
+def lambda_handler(event: ScheduledEvent, api: Api, cache: Cache):
 
-    return Corva(context).scheduled(sample_drilling_scheduler_app, event)
+    Logger.info('App Starts')
+    return sample_drilling_scheduler_app(event, api, cache)

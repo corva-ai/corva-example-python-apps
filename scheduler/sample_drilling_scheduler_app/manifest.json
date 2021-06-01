@@ -24,12 +24,12 @@
     },
     "timeout": 120,
     "memory": 128,
+    "environment": {},
     "runtime": "python3.8",
     "app": {
       "cron_string": "*/5 * * * *"
     }
   },
-  "environment": {},
   "datasets": {
     "big-data-energy.sample-drilling-scheduler-collection": {
       "permissions": [

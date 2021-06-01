@@ -24,9 +24,11 @@
     },
     "timeout": 120,
     "memory": 128,
+    "environment": {
+      "LOG_LEVEL": "DEBUG"
+    },
     "runtime": "python3.8"
   },
-  "environment": {},
   "datasets": {
     "big-data-energy.sample-drilling-stream-collection": {
       "permissions": [

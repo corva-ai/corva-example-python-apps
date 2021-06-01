@@ -19,13 +19,14 @@ def sample_frac_stream_app(event: StreamTimeEvent, api: Api, cache: Cache):
     data = records[0].data
 
     # This is stage_number from the first element of the records list. Each record will have it's stage_number
+    # Stage number is an extra field available only for apps using Real-time Frac Data
     stage_number = records[0].stage_number
 
     # data is a dictionary with all the real-time channels corresponding to that timestamp
     real_time_channels = list(data.keys())
 
-    Logger.info(f"asset_id {asset_id} company_id {company_id} stage_number {stage_number}")
-    Logger.info(f"start_timestamp {start_timestamp} end_timestamp {end_timestamp} record_count {record_count}")
+    Logger.info(f"{asset_id=} {company_id=} {stage_number=}")
+    Logger.info(f"{start_timestamp=} {end_timestamp=} {record_count=}")
     Logger.info(f"real-time channels {real_time_channels}")
 
     return stage_number
