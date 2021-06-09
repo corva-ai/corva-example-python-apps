@@ -8,13 +8,12 @@ import lasio
 import pytest
 import requests
 import requests_mock as requests_mock_lib
-from corva import TaskEvent
+from corva import Logger, TaskEvent
 from pytest_mock import MockerFixture
 from requests_mock import Mocker as RequestsMocker
 
 from lambda_function import lambda_handler
 from src.configuration import SETTINGS
-from src.logger import LOGGER
 from src.models import (
     EventProperties,
     FormationEvaluationData,
@@ -103,18 +102,19 @@ def test_behavior_if_delete_data_fails(
 
     requests_mock.delete(requests_mock_lib.ANY, status_code=200)
     requests_mock.delete(matcher, status_code=400)
-    logger_spy = mocker.spy(LOGGER, 'error')
+    logger_spy = mocker.spy(Logger, 'error')
     # this function is called next, after the exception handling.
     # return early by patching it to raise.
-    get_file_patch = mocker.patch('src.app.get_file', side_effect=Exception)
+    mocker.patch(
+        'src.app.get_file', side_effect=Exception('test_behavior_if_delete_data_fails')
+    )
 
-    pytest.raises(Exception, app_runner, lambda_handler, event)
+    with pytest.raises(Exception, match=r'^test_behavior_if_delete_data_fails$'):
+        app_runner(lambda_handler, event)
 
     logger_spy.assert_called_once_with(
-        f'Could not delete file_name={properties.file_name} '
-        f'for asset_id={event.asset_id}.'
+        f'Could not delete file_name={properties.file_name}.'
     )
-    get_file_patch.assert_called_once()
 
 
 @pytest.mark.parametrize(
@@ -122,11 +122,11 @@ def test_behavior_if_delete_data_fails(
     (
         [
             ('dept', [1]),
-            pytest.raises(Exception, match=''),
+            pytest.raises(Exception, match=r'^test_validate_index_curve_mnemonic$'),
         ],
         [
             ('depth', [1]),
-            pytest.raises(Exception, match=''),
+            pytest.raises(Exception, match=r'^test_validate_index_curve_mnemonic$'),
         ],
         [
             ('random', [1]),
@@ -155,7 +155,10 @@ def test_validate_index_curve_mnemonic(
     mocker.patch('src.app.get_file', return_value=out.getvalue())
     # return early by throwing an exception
     mocker.patch.object(
-        lasio.LASFile, 'data', new_callable=mocker.PropertyMock, side_effect=Exception
+        lasio.LASFile,
+        'data',
+        new_callable=mocker.PropertyMock,
+        side_effect=Exception('test_validate_index_curve_mnemonic'),
     )
 
     with exc_ctx:
