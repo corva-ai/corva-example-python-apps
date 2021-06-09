@@ -2,32 +2,29 @@
 
 Parses LAS log files v1.2 and v2.0.
 
-Corva supports viewing LAS logs files. In order to bring LAS
-file to Corva it needs to be parsed. This app parses LAS files
+Corva supports viewing LAS logs files.
+In order to bring LAS file to Corva
+it needs to be parsed.
+This app parses LAS files
 and persists relevant data in the database.
 
-# Requirements
+## Requirements
 
-Python 3.8+
+* Installed Python 3.8+.
+* Installed `make`.
 
-# Developing
+## Help
+* Run `make help` to see the list of available commands.
 
-#### Set up the project
+## Developing
 
-```console
-$ python -m venv venv
-$ source venv/bin/activate
-$ pip install -r dev-requirements.txt
-```
+### Set up
+* Create and activate virtual environment 
+  (e.g., using `venv`).
+* Run `make install`.
 
-#### Run code linter
-
-```console
-$ flake8
-```
-
-#### Run tests
-
-```console
-$ coverage run --branch -m pytest ; coverage html --include=src/*
-```
+### Run tests and linter
+* Static code analysis: `make lint`.
+* Unit tests: `make test` or `make testcov`
+  (later command will display code coverage in the browser).
+  
