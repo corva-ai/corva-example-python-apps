@@ -1,0 +1,46 @@
+{
+  "format": 1,
+  "license": {
+    "type": "MIT",
+    "url": "https://www.oandgexample.com/license/"
+  },
+  "developer": {
+    "authors": []
+  },
+  "application": {
+    "type": "scheduler",
+    "key": "big-data-energy.sample_drilling_scheduler_app",
+    "visibility": "private",
+    "name": "Sample Drilling Scheduler App",
+    "category": "analytics",
+    "segments": [
+      "drilling"
+    ]
+  },
+  "settings": {
+    "entrypoint": {
+      "file": "lambda_function",
+      "function": "lambda_handler"
+    },
+    "timeout": 120,
+    "memory": 128,
+    "environment": {},
+    "runtime": "python3.8",
+    "app": {
+      "cron_string": "*/5 * * * *"
+    }
+  },
+  "datasets": {
+    "big-data-energy.sample-drilling-scheduler-collection": {
+      "permissions": [
+        "read",
+        "write"
+      ]
+    },
+    "corva.wits": {
+      "permissions": [
+        "read"
+      ]
+    }
+  }
+}
