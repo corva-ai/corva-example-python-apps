@@ -29,7 +29,7 @@ test:
 ## test_e2e: Run e2e tests using LTF.
 .PHONY: test_e2e
 test_e2e:
-	PROVIDER=corva pytest $(e2e_test_path)
+	@PROVIDER=corva pytest $(e2e_test_path)
 
 ## testcov: Run tests and display code coverage in the browser.
 .PHONY: testcov
