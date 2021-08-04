@@ -1,0 +1,2 @@
+git+git://github.com/corva-ai/python-sdk@feature/dc-1919_3-split-scheduled-event#egg=corva_sdk
+pydantic==1.8.2

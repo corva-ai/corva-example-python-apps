@@ -1,0 +1,46 @@
+{
+  "format": 1,
+  "license": {},
+  "developer": {
+    "authors": []
+  },
+  "application": {
+    "type": "scheduler",
+    "key": "{PROVIDER}.drilling_wits_depth_median",
+    "visibility": "private",
+    "name": "Drilling Wits Depth Median",
+    "category": "analytics",
+    "segments": [
+      "drilling"
+    ]
+  },
+  "settings": {
+    "entrypoint": {
+      "file": "src.app",
+      "function": "app"
+    },
+    "timeout": 120,
+    "memory": 128,
+    "runtime": "python3.8"
+  },
+  "environment": {},
+  "datasets": {
+    "corva.drilling.wits.depth": {
+      "permissions": [
+        "read"
+      ]
+    },
+    "{PROVIDER}.drilling.wits.depth.median-1ft": {
+      "permissions": [
+        "read",
+        "write"
+      ]
+    },
+    "{PROVIDER}.drilling.wits.depth.median-10ft": {
+      "permissions": [
+        "read",
+        "write"
+      ]
+    }
+  }
+}
