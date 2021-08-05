@@ -15,7 +15,6 @@ PROVIDER=my-provider make build
 What's needed:
 * Linux with `make` installed.
 * Python 3.8.
-* `npm` 7.
 * Opened terminal inside cloned repository.
 
 Run following commands:

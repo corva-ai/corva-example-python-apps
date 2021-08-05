@@ -15,7 +15,6 @@ help: Makefile
 install:
 	@pip install -U -r requirements.txt
 	@pip install -U -r requirements-test.txt
-	@npm i --prefix ./ @corva/local-testing-framework@3.1.5
 
 ## test: Run tests and measure code coverage.
 .PHONY: test
