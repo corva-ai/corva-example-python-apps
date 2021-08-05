@@ -23,7 +23,7 @@ Run following commands:
 1 $ python -m venv env
 2 $ source ./env/bin/activate
 3 $ make install
-4 $ make lint test test_e2e
+4 $ make lint test
 ```
 1. Create an isolated Python environment.
 2. Activate the new environment.

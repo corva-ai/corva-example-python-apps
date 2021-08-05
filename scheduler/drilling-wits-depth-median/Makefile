@@ -2,7 +2,6 @@ comma = ,
 srcs_comma_sep = src,tests
 srcs = $(subst $(comma), ,$(srcs_comma_sep))
 unit_test_path = tests/test_unit.py
-e2e_test_path = tests/test_e2e.py
 manifest_name = manifest.json
 package_name = package.zip
 
@@ -23,13 +22,7 @@ install:
 test:
 	@coverage run -m --branch			 \
  	--source=$(srcs_comma_sep) 			 \
-	--omit=$(e2e_test_path)				 \
 	pytest $(unit_test_path)
-
-## test_e2e: Run e2e tests using LTF.
-.PHONY: test_e2e
-test_e2e:
-	@PROVIDER=corva pytest $(e2e_test_path)
 
 ## testcov: Run tests and display code coverage in the browser.
 .PHONY: testcov
