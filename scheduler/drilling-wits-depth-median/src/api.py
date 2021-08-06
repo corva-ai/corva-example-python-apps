@@ -45,7 +45,7 @@ def get_summaries(
             'log_identifier': log_identifier,
             'measured_depth': {'$in': measured_depths},
         },
-        sort={},
+        sort={'measured_depth': 1},
         limit=len(measured_depths),
         fields='_id,measured_depth',
     )
