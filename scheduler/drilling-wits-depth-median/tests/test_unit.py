@@ -46,10 +46,10 @@ def test_app_groups_records_by_depth_milestone(app_runner, mocker: MockerFixture
 
     records = [
         models.Record(measured_depth=0.0, data={'key': 0}).dict(),  # group 1
-        models.Record(measured_depth=1.0, data={'key': 1}).dict(),  # group 1
-        models.Record(measured_depth=2.0, data={'key': 2}).dict(),  # group 2
+        models.Record(measured_depth=1.50, data={'key': 1}).dict(),  # group 1
+        models.Record(measured_depth=1.51, data={'key': 2}).dict(),  # group 2
         models.Record(measured_depth=3.0, data={'key': 3}).dict(),  # group 2
-        models.Record(measured_depth=4.0, data={'key': 4}).dict(),  # group 2
+        models.Record(measured_depth=4.50, data={'key': 4}).dict(),  # group 2
     ]
 
     mocker.patch.object(Api, 'get_dataset', side_effect=[records, []])
