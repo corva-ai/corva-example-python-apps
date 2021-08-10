@@ -47,10 +47,12 @@ clean:
 ## build: Build .zip package.
 .PHONY: build
 build: PROVIDER ?=
+build: DEPTH_MILESTONE ?=
 build: clean
-	@sed							 \
-	-e 's|{PROVIDER}|$(PROVIDER)|g'  \
-	$(manifest_name)				 \
+	@sed										  \
+	-e 's|{PROVIDER}|$(PROVIDER)|g'  			  \
+	-e 's|{DEPTH_MILESTONE}|$(DEPTH_MILESTONE)|g' \
+	$(manifest_name)				 			  \
 	> $(manifest_name).new
 	@zip -r9q - src/ requirements.txt $(manifest_name).new >$(package_name)
 	@printf "@ $(manifest_name).new\n@=$(manifest_name)\n" \

@@ -7,7 +7,7 @@ that calculates and stores `drilling.wits.depth` data __medians__.
 To package the app for deployment to Dev Center
 use following command, which will output `package.zip`:
 ```bash
-PROVIDER=my-provider make build
+PROVIDER=my-provider DEPTH_MILESTONE=10 make build
 ```
 
 ## Contributing

@@ -21,7 +21,10 @@
     },
     "timeout": 120,
     "memory": 128,
-    "runtime": "python3.8"
+    "runtime": "python3.8",
+    "app": {
+      "depth_milestone": {DEPTH_MILESTONE}
+    }
   },
   "environment": {},
   "datasets": {
@@ -30,13 +33,7 @@
         "read"
       ]
     },
-    "{PROVIDER}.drilling.wits.depth.median-1ft": {
-      "permissions": [
-        "read",
-        "write"
-      ]
-    },
-    "{PROVIDER}.drilling.wits.depth.median-10ft": {
+    "{PROVIDER}.drilling.wits.depth.median-{DEPTH_MILESTONE}ft": {
       "permissions": [
         "read",
         "write"
