@@ -13,13 +13,7 @@ def get_stats(data: List[dict]) -> Dict[str, Union[float, List[Optional[float]]]
     stats: Dict[str, Union[float, List[Optional[float]]]] = {}
 
     for key in keys:
-        values = []
-
-        for datum in data:
-            if key not in datum:
-                continue
-
-            values.append(datum[key])
+        values = [datum[key] for datum in data if key in datum]
 
         if isinstance(values[0], list):
             # get medians for columns
