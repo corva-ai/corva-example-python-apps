@@ -4,8 +4,7 @@ import pytest
 from corva import Api, ScheduledDepthEvent
 from pytest_mock import MockerFixture
 
-from src import api as api_lib
-from src import models, service
+from src import models, network, service
 from src.app import app
 
 
@@ -21,7 +20,7 @@ def test_app_returns_early(app_runner, mocker: MockerFixture):
         interval=0.0,
     )
 
-    mocker.patch.object(api_lib, 'get_records', return_value=[])
+    mocker.patch.object(network, 'get_records', return_value=[])
     spy = mocker.spy(service, 'group_records_by_milestone')
 
     app_runner(app, event)

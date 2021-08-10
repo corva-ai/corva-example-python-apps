@@ -2,14 +2,13 @@ from typing import Dict
 
 from corva import Api, Cache, Logger, ScheduledDepthEvent, scheduled
 
-from src import api as api_lib
-from src import models, service
+from src import models, network, service
 from src.configuration import SETTINGS
 
 
 @scheduled
 def app(event: ScheduledDepthEvent, api: Api, cache: Cache):
-    records = api_lib.get_records(
+    records = network.get_records(
         api=api,
         asset_id=event.asset_id,
         log_identifier=event.log_identifier,
@@ -27,7 +26,7 @@ def app(event: ScheduledDepthEvent, api: Api, cache: Cache):
 
     out_dataset = SETTINGS.OUT_DATASET.format(interval=event.interval)
 
-    existing_summaries = api_lib.get_summaries(
+    existing_summaries = network.get_summaries(
         api=api,
         asset_id=event.asset_id,
         log_identifier=event.log_identifier,
@@ -44,7 +43,7 @@ def app(event: ScheduledDepthEvent, api: Api, cache: Cache):
         stats = service.get_stats(data=[record.data for record in records])
 
         if existing_summary := measured_depth_to_existing_summary.get(milestone):
-            api_lib.update_data(
+            network.update_data(
                 api=api,
                 collection=out_dataset,
                 id_=existing_summary.id,
@@ -63,7 +62,7 @@ def app(event: ScheduledDepthEvent, api: Api, cache: Cache):
         )
 
     if new_summaries:
-        api_lib.save_data(
+        network.save_data(
             api=api,
             collection=out_dataset,
             data=[summary.dict() for summary in new_summaries],
