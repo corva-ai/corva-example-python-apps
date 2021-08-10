@@ -84,6 +84,4 @@ def get_depth_milestone(depth: float, interval: float) -> float:
         # current depth is more than halfway through to the right bound
         n_intervals += 1
 
-    # TODO: how can this be negative?
-    # old code: max(0.0, n_intervals * interval)
     return n_intervals * interval
