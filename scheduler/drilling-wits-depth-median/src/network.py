@@ -16,14 +16,14 @@ def get_records(
 ) -> List[models.Record]:
     raw_records = api.get_dataset(
         provider='corva',
-        dataset=SETTINGS.IN_DATASET,
+        dataset=SETTINGS.INPUT_DATASET,
         query={
             'asset_id': asset_id,
             'log_identifier': log_identifier,
             'measured_depth': {'$gt': top_depth, '$lte': bottom_depth},
         },
         sort={'measured_depth': 1},
-        limit=SETTINGS.API_LIMIT,
+        limit=SETTINGS.RECORD_LIMIT,
         fields='measured_depth,data',
     )
 

@@ -24,7 +24,7 @@ def app(event: ScheduledDepthEvent, api: Api, cache: Cache):
         records=records, interval=event.interval
     )
 
-    out_dataset = SETTINGS.OUT_DATASET.format(interval=event.interval)
+    out_dataset = SETTINGS.OUTPUT_DATASET.format(interval=event.interval)
 
     existing_summaries = network.get_summaries(
         api=api,
