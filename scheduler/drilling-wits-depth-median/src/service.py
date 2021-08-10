@@ -22,9 +22,8 @@ def get_stats(data: List[dict]) -> Dict[str, Union[float, List[Optional[float]]]
             values.append(datum[key])
 
         if isinstance(values[0], list):
-            # TODO: can we assume that all rows have the same length?
             # get medians for columns
-            stat = [get_median(row=list(row)) for row in zip(*values)]
+            stat = [get_median(row=list(row)) for row in itertools.zip_longest(*values)]
 
             if all(item is None for item in stat):
                 stat = None
