@@ -30,7 +30,9 @@ def app(event: ScheduledDepthEvent, api: Api, cache: Cache):
         api=api,
         asset_id=event.asset_id,
         log_identifier=event.log_identifier,
-        measured_depths=list(milestone_to_records),
+        measured_depths=list(
+            milestone_to_records
+        ),  # get all current milestones (all keys)
         collection=out_dataset,
     )
 
