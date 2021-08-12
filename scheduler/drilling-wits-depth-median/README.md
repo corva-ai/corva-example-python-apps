@@ -13,7 +13,7 @@ PROVIDER=my-provider DEPTH_MILESTONE=10 make build
 ## Contributing
 
 What's needed:
-* Linux with `make` installed.
+* `make` installed.
 * Python 3.8.
 * Opened terminal inside cloned repository.
 
