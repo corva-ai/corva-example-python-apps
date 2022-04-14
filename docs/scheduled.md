@@ -2,11 +2,11 @@
 
 ## Data Time Scheduled
 
-Data time scheduling is based on the time of the received data. For example, if the app is scheduled to run every 10 minutes and 20 minutes of new data is received, 2 events will be created. One invoke may contain 1 or more events, each having different time range. This is to minimize the overhead caused by separate invokes when the well is catching up to real time.
+Data time scheduling is based on the time of the received data. For example, if the app is scheduled to run every 10 minutes and 20 minutes of new data is received, 2 events will be created. One invoke may contain 1 or more events, each having different time range. This is to minimize the overhead that would be caused by having a separate invoke for every event when the well is catching up to real time.
 
 Since this scheduling type is not based on the clock, invokes might occur in irregular intervals. If the app fails to execute the events (e.g. throws an error or times out), events will be resent for 48 hours in order to prevent data loss since the apps typically rely on the time ranges specified in the events.
 
-This type is suitable for applications that perform calculations based on the event interval. Good examples are summary apps with fixed intervals.
+This type is suitable for applications that perform calculations based on the event time ranges. Good examples are summary apps with fixed intervals.
 
 ### Events
 
@@ -131,7 +131,7 @@ def lambda_handler(event: ScheduledDataTimeEvent, api: Api, cache: Cache):
         },
         sort={'timestamp': 1},
         limit=600,
-        fields="data.weight_on_bit"
+        fields='data.weight_on_bit'
     )
 
     # If we did not find any records, we can stop the execution early
@@ -148,7 +148,7 @@ def lambda_handler(event: ScheduledDataTimeEvent, api: Api, cache: Cache):
         return None
 
     # Computing mean weight on bit from the list of realtime wits records
-    mean_weight_on_bit = statistics.mean(record.get("data", {}).get("weight_on_bit", 0) for record in records)
+    mean_weight_on_bit = statistics.mean(record.get('data', {}).get('weight_on_bit', 0) for record in records)
 
     Logger.info(f'Calculated mean WOB: {mean_weight_on_bit}')
 
@@ -268,7 +268,7 @@ def lambda_handler(event: ScheduledNaturalTimeEvent, api: Api, cache: Cache):
         query={'asset_id': event.asset_id},
         sort={'timestamp': -1},
         limit=1,
-        fields="timestamp,data.weight_on_bit"
+        fields='timestamp,data.weight_on_bit'
     )
 
     # If we did not find any records, we can stop the execution early
@@ -298,7 +298,7 @@ def lambda_handler(event: ScheduledNaturalTimeEvent, api: Api, cache: Cache):
         },
         sort={'timestamp': 1},
         limit=1000,
-        fields="timestamp"
+        fields='timestamp'
     )
 
     # Get the record we want to update
@@ -310,7 +310,7 @@ def lambda_handler(event: ScheduledNaturalTimeEvent, api: Api, cache: Cache):
         },
         sort={'timestamp': -1},
         limit=1,
-        fields="timestamp"
+        fields='timestamp'
     )
 
     if not records:
