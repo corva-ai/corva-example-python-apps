@@ -16,7 +16,7 @@ Event properties
 | -------- | ----------- |
 | asset_id | Asset ID |
 | company_id | Company ID |
-| start_time | Left bound of the time range, covered by this event. Use inclusively |
+| start_time | Left bound of the time range, covered by this event. Use inclusively. |
 | end_time | Right bound of the time range, covered by this event. Use inclusively. |
 
 Here's an example of the event generation when a lagging asset is catching up to real time and the app is scheduled to run every 10 minutes:
@@ -314,7 +314,7 @@ def lambda_handler(event: ScheduledNaturalTimeEvent, api: Api, cache: Cache):
     )
 
     if not records:
-        # Create the record if we have don't have created it yet
+        # Create a new record if we have don't have it yet
         output = {
             'timestamp': event.end_time,
             'asset_id': event.asset_id,
