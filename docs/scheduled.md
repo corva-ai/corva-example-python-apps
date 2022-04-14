@@ -2,9 +2,9 @@
 
 ## Data Time Scheduled
 
-Data time scheduling is based on the time of the received data. For example, if the app is scheduled to run every 10 minutes and 20 minutes of new data is received, 2 events will be created. One invoke may contain 1 or more events, each having different time range.
+Data time scheduling is based on the time of the received data. For example, if the app is scheduled to run every 10 minutes and 20 minutes of new data is received, 2 events will be created. One invoke may contain 1 or more events, each having different time range. This is to minimize the overhead caused by separate invokes when the well is catching up to real time.
 
-Since this scheduling is not based on the clock, invokes might occur in irregular intervals.
+Since this scheduling type is not based on the clock, invokes might occur in irregular intervals. If the app fails to execute the events (e.g. throws an error or times out), events will be resent for 48 hours in order to prevent data loss since the apps typically rely on the time ranges specified in the events.
 
 This type is suitable for applications that perform calculations based on the event interval. Good examples are summary apps with fixed intervals.
 
@@ -108,7 +108,7 @@ Events:
 
 Full example of an app that calculates mean weight on bit 10 minute summaries:
 
-```
+```python
 import statistics
 
 
@@ -184,7 +184,11 @@ def lambda_handler(event: ScheduledDataTimeEvent, api: Api, cache: Cache):
 
 Natural time scheduling is based on the clock time. For example, if the app is scheduled to run every 10 minutes, it will get invoked once every 10 minutes, even if there is no new data available. App continues to get invoked until the well stream is stopped.
 
+Unlike with data time scheduling, natural time apps events will not be resent if the app execution fails. This is because the apps don't rely on the time ranges inside the events.
+
 This type is suitable for applications that do not directly depend on the time ranges that are passed in data time scheduled events.
+
+NOTE: App timeout should be set to be less than the scheduled interval in order to prevent overlapping invocations.
 
 ### Events
 
@@ -251,7 +255,7 @@ Event:
 
 Full example of a very simple app that tracks the total number of WITS records:
 
-```
+```python
 from corva import Api, Cache, Logger, ScheduledNaturalTimeEvent, scheduled
 
 
@@ -334,7 +338,7 @@ def lambda_handler(event: ScheduledNaturalTimeEvent, api: Api, cache: Cache):
         api.patch(f'/api/v1/data/my-company/my-dataset/{record["id"]}/', data=output)
 
     # Storing the processed timestamp to cache for the next invoke
-    cache.store(key='last_processed_timestamp', value=latest_record['timestamp])
+    cache.store(key='last_processed_timestamp', value=new_records[-1]['timestamp])
 
     return
 ```
