@@ -210,7 +210,7 @@ App is scheduled to run every: 5 minutes
 
 **1st invoke**
 
-Current time is 2022/04/03 13:00:00
+Clock time: 2022/04/03 13:00:00
 
 ```
 Event:
@@ -224,7 +224,7 @@ Event:
 
 **2nd invoke**
 
-Current time is 2022/04/03 13:10:00
+Clock time: 2022/04/03 13:05:00
 
 ```
 Event:
@@ -238,7 +238,7 @@ Event:
 
 **3rd invoke**
 
-Current time is 2022/04/03 13:10:00
+Clock time: 2022/04/03 13:10:00
 
 ```
 Event:
