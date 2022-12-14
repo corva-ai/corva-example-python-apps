@@ -14,7 +14,7 @@ def example_scheduled_data_time_app(event: ScheduledDataTimeEvent, api: Api, cac
 
     # You have to fetch the realtime drilling data for the asset based on start and end time of the event.
     # start_time and end_time are inclusive so the query is structured accordingly to avoid processing duplicate data
-    # We are only querying for weight_on_bit field since that is the only field we need. It is nested under data.
+    # We are only querying for rop field since that is the only field we need. It is nested under data.
     records = api.get_dataset(
         provider="corva",
         dataset="wits",
