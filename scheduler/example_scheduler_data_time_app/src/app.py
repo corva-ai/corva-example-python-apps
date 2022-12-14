@@ -32,7 +32,7 @@ def example_scheduled_data_time_app(event: ScheduledDataTimeEvent, api: Api, cac
 
     record_count = len(records)
 
-    # Computing mean weight on bit from the list of realtime wits records
+    # Computing mean rop value from the list of realtime wits records
     rop = statistics.mean(record.get("data", {}).get("rop", 0) for record in records)
     company_id = records[0].get("company_id")
 
@@ -64,6 +64,7 @@ def example_scheduled_data_time_app(event: ScheduledDataTimeEvent, api: Api, cac
     Logger.debug(f"{start_time=} {end_time=} {record_count=}")
     Logger.debug(f"{output=}")
 
+    # Sending a POST request to Corva Data API with the output data that we created above. Please note output is always a list.
     # if request fails, lambda will be re-invoked. so no exception handling
     api.post(
         f"api/v1/data/{SETTINGS.provider}/{SETTINGS.output_collection}/", data=[output],

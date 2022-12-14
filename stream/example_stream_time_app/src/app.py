@@ -34,7 +34,7 @@ def example_stream_app(event: StreamTimeEvent, api: Api, cache: Cache) -> list:
         pump_spm_1 = record.data.get("pump_spm_1", 0)
         pump_spm_2 = record.data.get("pump_spm_2", 0)
 
-    # Aggregating everything into one json object
+        # Aggregating everything into one json object
         output = {
             "timestamp": record.timestamp,
             "asset_id": asset_id,
@@ -50,7 +50,7 @@ def example_stream_app(event: StreamTimeEvent, api: Api, cache: Cache) -> list:
 
         outputs.append(output)
 
-    # Checking if we have any new data:
+    # Sending a POST request to Corva Data API with the output data that we created above. Please note outputs is always a list.
     if outputs:
         # if request fails, lambda will be reinvoked. so no exception handling
         Logger.debug(f"{outputs=}")
