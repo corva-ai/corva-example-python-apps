@@ -66,7 +66,7 @@ def example_scheduled_depth_app(event: ScheduledDepthEvent, api: Api, cache: Cac
 
     # Sending a POST request to Corva DATA API with the output json we created above. 
     # If request fails, lambda will be re-invoked. so no exception handling. 
-    # Please note that the output is always a list.
+    # Please note that the data is always a list.
     api.post(
         f"api/v1/data/{SETTINGS.provider}/{SETTINGS.output_collection}/", data=[output],
     ).raise_for_status()

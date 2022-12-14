@@ -50,7 +50,7 @@ def example_stream_app(event: StreamTimeEvent, api: Api, cache: Cache) -> list:
 
         outputs.append(output)
 
-    # Sending a POST request to Corva Data API with the output data that we created above. Please note outputs is always a list.
+    # Sending a POST request to Corva Data API with the output data that we created above. Please note data is always a list.
     if outputs:
         # if request fails, lambda will be reinvoked. so no exception handling
         Logger.debug(f"{outputs=}")

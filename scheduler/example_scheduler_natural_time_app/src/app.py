@@ -62,8 +62,8 @@ def example_drilling_scheduler_app(event: ScheduledEvent, api: Api, cache: Cache
     Logger.debug(f"{asset_id=} {company_id=}")
     Logger.debug(f"{start_time=} {end_time=} {record_count=}")
     Logger.debug(f"{output=}")
-    
-    # Sending a POST request to Corva Data API with the output data that we created above. Please note output is always a list.
+
+    # Sending a POST request to Corva Data API with the output data that we created above. Please note data is always a list.
     # if request fails, lambda will be re-invoked. so no exception handling
     api.post(
         f"api/v1/data/{SETTINGS.provider}/{SETTINGS.output_collection}/", data=[output],

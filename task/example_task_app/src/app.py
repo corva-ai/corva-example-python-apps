@@ -28,7 +28,7 @@ def example_task_app(event: TaskEvent, api: Api) -> list:
     
     Logger.debug({f"{output=}"})
 
-    # Checking if any data is present and then seding a POST request to Corva Data API. Please note that output is always a list.
+    # Checking if any data is present and then seding a POST request to Corva Data API. Please note that data is always a list.
     if output:
         # if request fails, lambda will be reinvoked. so no exception handling
         api.post(
