@@ -1,0 +1,52 @@
+{
+  "format": 1,
+  "license": {
+    "type": "MIT",
+    "url": "https://www.oandgexample.com/license/"
+  },
+  "developer": {
+    "name": "O&G Company",
+    "identifier": "oandgc",
+    "authors": []
+  },
+  "application": {
+    "type": "scheduler",
+    "key": "big-data-energy.example_scheduler_depth_app",
+    "visibility": "private",
+    "name": "Example Scheduler Depth App",
+    "description": "This is the description of my app. You can do great things with it!",
+    "summary": "More information about this app goes here",
+    "category": "analytics",
+    "website": "https://www.oandgexample.com/my-app/",
+    "segments": [
+      "drilling"
+    ]
+  },
+  "settings": {
+    "entrypoint": {
+      "file": "lambda_function",
+      "function": "lambda_handler"
+    },
+    "timeout": 120,
+    "memory": 128,
+    "environment": {"LOG_LEVEL": "DEBUG" },
+    "runtime": "python3.8",
+    "app": {
+      "scheduler_type": 4,
+      "depth_milestone": 1
+    }
+  },
+  "datasets": {
+    "big-data-energy.example-scheduled-depth-app": {
+      "permissions": [
+        "read",
+        "write"
+      ]
+    },
+    "corva.drilling.wits.depth": {
+      "permissions": [
+        "read"
+      ]
+    }
+  }
+}
