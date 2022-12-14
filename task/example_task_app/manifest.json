@@ -1,0 +1,44 @@
+{
+  "format": 1,
+  "license": {
+    "type": "MIT",
+    "url": "https://www.oandgexample.com/license/"
+  },
+  "developer": {
+    "name": "O&G Company",
+    "identifier": "oandgc",
+    "authors": []
+  },
+  "application": {
+    "type": "task",
+    "key": "big-data-energy.example_task_app",
+    "visibility": "private",
+    "name": "Example Task App",
+    "description": "This is the description of my app. You can do great things with it!",
+    "summary": "More information about this app goes here",
+    "category": "analytics",
+    "website": "https://www.oandgexample.com/my-app/",
+    "segments": [
+      "drilling"
+    ]
+  },
+  "settings": {
+    "entrypoint": {
+      "file": "lambda_function",
+      "function": "lambda_handler"
+    },
+    "timeout": 120,
+    "memory": 128,
+    "environment": {"LOG_LEVEL": "DEBUG"},
+    "runtime": "python3.8",
+    "app": {}
+  },
+  "datasets": {
+    "big-data-energy.example-task-app": {
+     "permissions": [
+       "read",
+       "write"
+     ]
+   }
+ }
+}
