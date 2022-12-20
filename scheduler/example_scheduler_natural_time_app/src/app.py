@@ -1,11 +1,11 @@
 import statistics
 
-from corva import Api, Cache, Logger, ScheduledEvent
+from corva import Api, Cache, Logger, ScheduledNaturalTimeEvent
 
 from src.configuration import SETTINGS
 
 
-def example_drilling_scheduler_app(event: ScheduledEvent, api: Api, cache: Cache):
+def example_drilling_scheduler_app(event: ScheduledNaturalTimeEvent, api: Api, cache: Cache):
 
     # You have access to asset_id, start_time and end_time of the event.
     asset_id = event.asset_id
@@ -37,7 +37,7 @@ def example_drilling_scheduler_app(event: ScheduledEvent, api: Api, cache: Cache
     company_id = records[0].get("company_id")
 
     # Getting last exported timestamp from redis
-    last_exported_timestamp = int(cache.load(key='last_exported_timestamp') or 0)
+    last_exported_timestamp = int(cache.get(key='last_exported_timestamp') or 0)
 
     # Making sure we are not processing duplicate data
     if end_time <= last_exported_timestamp:
@@ -70,6 +70,6 @@ def example_drilling_scheduler_app(event: ScheduledEvent, api: Api, cache: Cache
     ).raise_for_status()
 
     # Storing the output timestamp to cache
-    cache.store(key='last_exported_timestamp', value=output.get("timestamp"))
+    cache.set(key='last_exported_timestamp', value=output.get("timestamp"))
 
     return output

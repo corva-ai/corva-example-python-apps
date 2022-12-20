@@ -38,7 +38,7 @@ def example_scheduled_data_time_app(event: ScheduledDataTimeEvent, api: Api, cac
 
 
     # Getting last exported timestamp from redis
-    last_exported_timestamp = int(cache.load(key='last_exported_timestamp') or 0)
+    last_exported_timestamp = int(cache.get(key='last_exported_timestamp') or 0)
 
     # Making sure we are not processing duplicate data
     if end_time <= last_exported_timestamp:
@@ -71,6 +71,6 @@ def example_scheduled_data_time_app(event: ScheduledDataTimeEvent, api: Api, cac
     ).raise_for_status()
 
     # Storing the output timestamp to cache
-    cache.store(key='last_exported_timestamp', value=output.get("timestamp"))
+    cache.set(key='last_exported_timestamp', value=output.get("timestamp"))
 
     return output

@@ -1,6 +1,7 @@
 import statistics
 
 from corva import Api, Cache, Logger, ScheduledDepthEvent
+from corva.service.cache_sdk import UserRedisSdk
 
 from src.configuration import SETTINGS
 
@@ -35,11 +36,12 @@ def example_scheduled_depth_app(event: ScheduledDepthEvent, api: Api, cache: Cac
     record_count = len(records)
     # Getting custom values from our record. It is up to your which ones you need for your apps. In this case we are getting company_id and dep values.   
     company_id = records[0].get("company_id")
-    dep = records[0].get("data.dep")
+    dep = records[0].get("data", {}).get("dep", 0)
+    
 
 
     # Getting last exported timestamp from redis
-    last_exported_measured_depth = int(float(cache.get(key='measured_depth')) or 0)
+    last_exported_measured_depth = int(cache.get(key='measured_depth') or 0)
 
     # Making sure we are not processing duplicate data
     if bottom_depth <= last_exported_measured_depth:
