@@ -21,7 +21,7 @@ def example_stream_app(event: StreamTimeEvent, api: Api, cache: Cache) -> list:
     Logger.debug(f"{start_timestamp=} {end_timestamp=} {record_count=}")
 
     # Getting last exported timestamp from redis
-    last_exported_timestamp = int(cache.load(key='last_exported_timestamp') or 0)
+    last_exported_timestamp = int(cache.get(key='last_exported_timestamp') or 0)
 
     outputs = []
     for record in records:
@@ -59,6 +59,6 @@ def example_stream_app(event: StreamTimeEvent, api: Api, cache: Cache) -> list:
         ).raise_for_status()
 
         # Storing the last timestamp of the output to cache
-        cache.store(key='last_exported_timestamp', value=outputs[-1].get("timestamp"))
+        cache.set(key='last_exported_timestamp', value=outputs[-1].get("timestamp"))
 
     return outputs

@@ -4,6 +4,10 @@ from corva import Api, ScheduledDataTimeEvent
 
 from lambda_function import lambda_handler
 
+# Since we do not have a localhost API running we will mock our API requests with the help of unittest.mock built-in python library. 
+
+# Sending a ScheduledDataTimeEvent with the required params for the app.  
+# API get_dataset & api.post calls are mocked here.
 
 def test_app(app_runner):
     event = ScheduledDataTimeEvent(
@@ -15,6 +19,7 @@ def test_app(app_runner):
     ), unittest.mock.patch.object(Api, 'post') as post_patch:
         app_runner(lambda_handler, event=event)
 
+    # Testing the output data structure & values here
     assert post_patch.call_args.kwargs['data'] == [
         {
             'timestamp': 1578291300,
