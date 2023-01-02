@@ -1,0 +1,70 @@
+Set up the POST Task
+
+Now that the app is configured, you can now set up the body of the POST task that will be sent to the task app. 
+
+The following is required for the POST task API Request:
+
+  1. The API request is a POST
+   
+  2. The url is `https://api.corva.ai/v2/tasks`
+   
+  3. The required Authorization from a frontend app is the user's Bearer Token, e.g. "authorization: Bearer eyJhbGciOiJIUzI..."
+   
+  4. A stream, scheduled or task backend app is not authorized to invoke a task app, therefore, you must pass in an API Key. API Keys can be securely stored utilizing [Secrets](Secrets.md). The required Authorization from another backend app to a task app is an API Key, e.g. "authorization: API bca70d650da6..."
+   
+  5. The "task": { } is an object { }, therefore wrapped in { }, e.g. { "task":{ } }
+   
+  6. The "task": { } object must wrap the "provider" index, "app_key" index, "asset_id" index, "properties": { } object and "payload": { } object
+   
+  7. The required indexes of a POST request are "provider", "app_key", "asset_id"
+   
+  8. The data can be sent in either the "properties": { } object or "payload": { } object or both the "properties": { } object and "payload": { } object
+
+```
+{
+   "task":{
+      "provider":"big-data-energy",
+      "app_key":"provider.app_name",
+      "asset_id":5678,
+      "properties":{
+         "key_1":"string",
+         "key_2":12345,
+         "key_3":1.2345,
+         "key_4":true
+      },
+      "payload":{
+         "key_array":[
+            123,
+            45678
+         ],
+         "key_int":10
+      }
+   }
+}
+```
+Example of the POST task body. 
+
+In this use case example, the values required by the task app are being sent in the properties {} object. 
+
+```json
+{
+   "task":{
+      "provider":"big-data-energy",
+      "app_key":"big-data-energy.example_task_app",
+      "asset_id": 67307237,
+      "properties":{
+         "discounted_revenue":1574832,
+         "discounted_operating_costs":200000,
+         "drilling_and_completions_costs":1000000,
+         "timestamp":1672444526
+      }
+   }
+}
+```
+Example of the use case POST task body.
+
+```c
+curl -X POST "https://api.corva.ai/v2/tasks" -H  "accept: application/json" -H  "authorization: Bearer eyJhbGciOiJIUzI1NiJ" -H  "Content-Type: application/json" -d "{   \"task\":{      \"provider\":\"big-data-energy\",      \"app_key\":\"big-data-energy.example_task_app\",      \"asset_id\": 67307237,      \"properties\":{         \"discounted_revenue\":1574832,         \"discounted_operating_costs\":200000,         \"drilling_and_completions_costs\":1000000,         \"timestamp\":1672444526      }   }}"
+
+```
+Example of the use case curl of POST task body.
