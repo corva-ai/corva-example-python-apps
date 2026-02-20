@@ -58,8 +58,6 @@ def example_drilling_scheduler_app(event: ScheduledNaturalTimeEvent, api: Api, c
     # Computing mean weight on bit from the list of realtime wits records
     mean_weight_on_bit = statistics.mean(record.get("data", {}).get("weight_on_bit", 0) for record in records)
 
-    company_id = records[0].get("company_id")
-
     # Building the required output
     output = {
         "timestamp": records[-1].get('timestamp', schedule_end),
