@@ -11,8 +11,7 @@ from lambda_function import lambda_handler
 
 def test_app(app_runner):
     event = ScheduledNaturalTimeEvent(
-        company_id=1, asset_id=1234, log_identifier=1, schedule_start=1, interval=1, start_time=12345, end_time=123456
-    )
+        company_id=1, asset_id=1234, log_identifier=1, schedule_start=1, interval=1)
 
     with unittest.mock.patch.object(
         Api, 'get_dataset', return_value=[{'data': {'weight_on_bit': 5}, 'company_id': 1}]
@@ -21,15 +20,15 @@ def test_app(app_runner):
 
     # Testing the output data structure & values here
     assert post_patch.call_args.kwargs['data'] == [{
-        "timestamp": 123456,
+        "timestamp": 2,
         "asset_id": 1234,
         "company_id": 1,
         "provider": "test-provider",
         "collection": "example-scheduled-natural-time-app",
         "data": {
             "mean_weight_on_bit": 5,
-            "start_time": 12345,
-            "end_time": 123456
+            "start_time": 1,
+            "end_time": 2.0
         },
         "version": 1
     }]
