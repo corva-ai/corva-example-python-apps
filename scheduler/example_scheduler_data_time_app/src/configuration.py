@@ -1,7 +1,6 @@
-import pydantic
+from pydantic_settings import BaseSettings
 
-
-class Settings(pydantic.BaseSettings):
+class Settings(BaseSettings):
     provider: str = "big-data-energy"
     output_collection: str = "example-scheduled-data-time-app"
     version: int = 1
