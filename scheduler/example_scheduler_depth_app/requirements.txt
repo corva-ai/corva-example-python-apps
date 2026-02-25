@@ -1,2 +1,2 @@
-corva-sdk==1.8.0
-#pytest==7.1.1
+corva-sdk==2.1.1
+pytest==9.0.2
