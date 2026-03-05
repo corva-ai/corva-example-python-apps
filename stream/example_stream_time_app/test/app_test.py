@@ -11,7 +11,7 @@ from lambda_function import lambda_handler
 
 def test_app(app_runner):
     event = StreamTimeEvent(
-        company_id=1, asset_id=1234, records=[{"timestamp": 1578291300, "data": {"pump_spm_1": 25, "pump_spm_2": 30}}]
+        company_id=1, asset_id=1234, records=[{"timestamp": 1578291300, "data": {"weight_on_bit": 25, "hook_load": 30}}]
     )
 
     with unittest.mock.patch.object(Api, 'post') as post_patch:
@@ -26,8 +26,9 @@ def test_app(app_runner):
             "provider": "test-provider",
             "collection": "example-stream-time-app",
             "data": {
-                "pump_spm_1": 25,
-                "pump_spm_2": 30
+                "weight_on_bit": 25,
+                "hook_load": 30,
+                "wob_plus_hkld": 55
             },
             "version": 1,
         }
