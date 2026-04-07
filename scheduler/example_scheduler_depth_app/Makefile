@@ -1,15 +1,18 @@
-.PHONY: default install bundle release test
+.PHONY: default install bundle release test lint
 .DEFAULT_GOAL := default
+UV_SYNC = uv sync --group dev --no-install-project --no-editable
+UV_RUN = uv run --group dev
 
 default: install
 install: prepare-venv
-	@. venv/bin/activate && pip install -r requirements.txt
+	@$(UV_SYNC)
 prepare-venv:
-	@which python3 > /dev/null || (echo "python3 not found, please install it first" && exit 1;)
-	@test -d venv || python3 -m venv venv
+	@which uv > /dev/null || (echo "uv not found, please install it first" && exit 1;)
 bundle:
 	@create-corva-app zip . --bump-version=skip
 release:
 	@create-corva-app release . --bump-version=skip
 test: prepare-venv
-	@. venv/bin/activate && pytest
+	@$(UV_RUN) pytest
+lint: prepare-venv
+	@$(UV_RUN) ruff check .

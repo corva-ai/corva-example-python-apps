@@ -1,7 +1,6 @@
 import statistics
 
 from corva import Api, Cache, Logger, ScheduledDepthEvent
-from corva.service.cache_sdk import UserRedisSdk
 
 from src.configuration import SETTINGS
 

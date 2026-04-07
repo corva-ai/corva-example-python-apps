@@ -1,0 +1,26 @@
+[project]
+name = "example-scheduler-depth-app"
+version = "0.1.0"
+description = "Corva example scheduler depth app"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "corva-sdk==2.1.1",
+]
+
+[dependency-groups]
+dev = [
+    "pytest~=8.3.5",
+    "ruff~=0.12.11",
+]
+
+[tool.uv]
+package = false
+default-groups = []
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = ["E501"]

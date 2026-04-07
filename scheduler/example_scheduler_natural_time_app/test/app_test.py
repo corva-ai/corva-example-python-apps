@@ -1,6 +1,6 @@
 import unittest.mock
 
-from corva import Api, ScheduledNaturalTimeEvent, Cache
+from corva import Api, ScheduledNaturalTimeEvent
 
 from lambda_function import lambda_handler
 

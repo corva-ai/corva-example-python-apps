@@ -10,7 +10,7 @@ and persists relevant data in the database.
 
 ## Requirements
 
-* Installed Python 3.8+.
+* Installed `uv`.
 * Installed `make`.
 
 ## Help
@@ -19,8 +19,6 @@ and persists relevant data in the database.
 ## Developing
 
 ### Set up
-* Create and activate virtual environment 
-  (e.g., using `venv`).
 * Run `make install`.
 
 ### Run tests and linter

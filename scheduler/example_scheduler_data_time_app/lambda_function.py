@@ -1,7 +1,7 @@
 from corva import Api, Cache, Logger, ScheduledDataTimeEvent, scheduled
 
-
 from src.app import example_scheduled_data_time_app
+
 
 @scheduled
 def lambda_handler(event: ScheduledDataTimeEvent, api: Api, cache: Cache):

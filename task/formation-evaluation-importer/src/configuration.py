@@ -1,4 +1,4 @@
-import pydantic
+import pydantic.v1 as pydantic
 
 
 class Settings(pydantic.BaseSettings):

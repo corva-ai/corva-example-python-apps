@@ -2,6 +2,7 @@ from corva import Api, Cache, Logger, StreamDepthEvent
 
 from src.configuration import SETTINGS
 
+
 def example_stream_depth_app(event: StreamDepthEvent, api: Api, cache: Cache):
     
 # 3. Here is where you can declare your variables from the argument event: StreamDepthEvent and start using Api, Cache and Logger functionalities. You can obtain key values directly from metadata in the stream app event without making any additional API requests.

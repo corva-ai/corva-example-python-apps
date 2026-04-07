@@ -1,7 +1,7 @@
 import pathlib
 from typing import Dict, List, Union
 
-import pydantic
+import pydantic.v1 as pydantic
 
 from src.constants import MNEMONICS, UNIT_BUCKETS, UNITS
 
