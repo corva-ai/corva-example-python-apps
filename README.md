@@ -37,12 +37,12 @@ $ python lambda_function.py
 
 ### Requirements
 
-These apps were developed using Python 3.8
+These apps are developed with `uv`-managed Python environments.
 
-Some apps may require additional dependencies, which can be installed using pip:
+Install dependencies for a specific app from that app directory:
 
 ```ruby
-$ pip install -r requirements.txt
+$ uv sync --group dev --no-install-project --no-editable
 ```
 
 License

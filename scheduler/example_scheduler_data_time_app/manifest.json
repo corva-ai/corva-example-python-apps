@@ -30,7 +30,7 @@
     "timeout": 120,
     "memory": 128,
     "environment": {},
-    "runtime": "python3.8",
+    "runtime": "python3.14",
     "app": {
       "scheduler_type": 2,
       "cron_string": "*/3 * * * *"
