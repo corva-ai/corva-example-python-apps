@@ -1,8 +1,8 @@
 srcs_comma_sep = src,tests,lambda_function.py
 comma = ,
 srcs = $(subst $(comma), ,$(srcs_comma_sep))
-UV_SYNC = uv sync --group dev --no-install-project --no-editable
-UV_RUN = uv run --group dev
+UV_SYNC = uv sync --frozen --group dev --no-install-project --no-editable
+UV_RUN = uv run --frozen --group dev
 
 ## help: Show this help.
 .PHONY: help

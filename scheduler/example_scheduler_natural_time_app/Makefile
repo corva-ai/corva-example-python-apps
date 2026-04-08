@@ -1,7 +1,7 @@
 .PHONY: default install bundle release test lint
 .DEFAULT_GOAL := default
-UV_SYNC = uv sync --group dev --no-install-project --no-editable
-UV_RUN = uv run --group dev
+UV_SYNC = uv sync --frozen --group dev --no-install-project --no-editable
+UV_RUN = uv run --frozen --group dev
 
 default: install
 install: prepare-venv
