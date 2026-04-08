@@ -1,7 +1,7 @@
-import pydantic.v1 as pydantic
+from pydantic_settings import BaseSettings
 
 
-class Settings(pydantic.BaseSettings):
+class Settings(BaseSettings):
     provider: str = 'big-data-energy'
     collection: str = 'formation-evaluation'
     version: int = 1

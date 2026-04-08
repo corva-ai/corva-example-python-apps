@@ -30,7 +30,7 @@
     "timeout": 120,
     "memory": 128,
     "environment": {},
-    "runtime": "python3.13",
+    "runtime": "python3.14",
     "app": {
       "log_type": "depth"
     }

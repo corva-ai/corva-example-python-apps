@@ -2,7 +2,7 @@
 name = "example-scheduler-data-time-app"
 version = "0.1.0"
 description = "Corva example scheduler data time app"
-requires-python = ">=3.11,<3.12"
+requires-python = ">=3.11,<4.0"
 dependencies = [
     "corva-sdk==2.1.1",
 ]
@@ -19,7 +19,7 @@ default-groups = []
 
 [tool.ruff]
 line-length = 120
-target-version = "py310"
+target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]

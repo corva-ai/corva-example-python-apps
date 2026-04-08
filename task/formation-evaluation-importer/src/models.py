@@ -1,21 +1,25 @@
 import pathlib
 from typing import Dict, List, Union
 
-import pydantic.v1 as pydantic
+from pydantic import AnyHttpUrl, BaseModel, ConfigDict, Field, field_validator
 
 from src.constants import MNEMONICS, UNIT_BUCKETS, UNITS
 
 
-class EventProperties(pydantic.BaseModel):
-    file_path: pathlib.Path = pydantic.Field(..., alias='file_name')
-    file_url: pydantic.AnyHttpUrl
+class CorvaModel(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+
+class EventProperties(CorvaModel):
+    file_path: pathlib.Path = Field(..., alias='file_name')
+    file_url: AnyHttpUrl
 
     @property
     def file_name(self) -> str:
         return self.file_path.name
 
 
-class LasSectionRowData(pydantic.BaseModel):
+class LasSectionRowData(CorvaModel):
     """Stores "~V", "~W", "~C" or "~P" las section row data.
 
     More info in "5.2 Line Delimiters"
@@ -23,35 +27,38 @@ class LasSectionRowData(pydantic.BaseModel):
     """
 
     mnemonic: str
-    units: str = pydantic.Field(..., alias='unit')
+    units: str = Field(..., alias='unit')
     value: str
     descr: str
 
 
-class LasSectionRowMapping(pydantic.BaseModel):
+class LasSectionRowMapping(CorvaModel):
     mnemonic: str
     unit: str
-    bucket: str = pydantic.Field(..., alias='unit')
+    bucket: str = Field(..., alias='unit')
 
-    @pydantic.validator('mnemonic')
+    @field_validator('mnemonic')
+    @classmethod
     def set_mnemonic(cls, v: str) -> str:
         return MNEMONICS.get(v.lower(), v)
 
-    @pydantic.validator('unit')
+    @field_validator('unit')
+    @classmethod
     def set_unit(cls, v: str) -> str:
         return UNITS.get(v.lower(), v)
 
-    @pydantic.validator('bucket')
+    @field_validator('bucket')
+    @classmethod
     def set_bucket(cls, v: str) -> str:
         return UNIT_BUCKETS.get(v.lower(), 'Other')
 
 
-class ParsedLasSectionRow(pydantic.BaseModel):
+class ParsedLasSectionRow(CorvaModel):
     data: LasSectionRowData
     mapping: LasSectionRowMapping
 
 
-class ParsedLasFile(pydantic.BaseModel):
+class ParsedLasFile(CorvaModel):
     """Stores parsed las file data.
 
     Attributes:
@@ -71,14 +78,14 @@ class ParsedLasFile(pydantic.BaseModel):
     mapped_log_data: List[Dict[str, Union[float, int]]]
 
 
-class FormationEvaluationMetadataData(pydantic.BaseModel):
+class FormationEvaluationMetadataData(CorvaModel):
     params: List[ParsedLasSectionRow]
     well: List[ParsedLasSectionRow]
     curve: List[ParsedLasSectionRow]
     other: str
 
 
-class FormationEvaluationMetadata(pydantic.BaseModel):
+class FormationEvaluationMetadata(CorvaModel):
     asset_id: int
     timestamp: int
     company_id: int
@@ -86,17 +93,17 @@ class FormationEvaluationMetadata(pydantic.BaseModel):
     app: str
     provider: str
     data: FormationEvaluationMetadataData
-    file: str = pydantic.Field(..., alias='file_name')
+    file: str = Field(..., alias='file_name')
     records_count: int
     version: int
 
 
-class FormationEvaluationDataMetadata(pydantic.BaseModel):
+class FormationEvaluationDataMetadata(CorvaModel):
     formation_evaluation_id: str
-    file: str = pydantic.Field(..., alias='file_name')
+    file: str = Field(..., alias='file_name')
 
 
-class FormationEvaluationData(pydantic.BaseModel):
+class FormationEvaluationData(CorvaModel):
     asset_id: int
     timestamp: int
     company_id: int
@@ -108,5 +115,5 @@ class FormationEvaluationData(pydantic.BaseModel):
     version: int
 
 
-class SaveDataReponse(pydantic.BaseModel):
+class SaveDataReponse(CorvaModel):
     inserted_ids: List[str]

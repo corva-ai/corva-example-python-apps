@@ -2,11 +2,12 @@
 name = "formation-evaluation-importer"
 version = "0.1.0"
 description = "Corva example formation evaluation importer"
-requires-python = ">=3.11,<3.12"
+requires-python = ">=3.11,<4.0"
 dependencies = [
     "corva-sdk==2.1.1",
     "lasio==0.32",
     "numpy>=1.26,<3",
+    "pydantic-settings>=2.12,<3",
     "pydantic>=2.12,<3",
     "requests==2.32.3",
 ]
@@ -27,7 +28,7 @@ default-groups = []
 
 [tool.ruff]
 line-length = 120
-target-version = "py310"
+target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]
