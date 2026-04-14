@@ -2,6 +2,7 @@ from corva import Api, Cache, Logger, StreamTimeEvent
 
 from src.configuration import SETTINGS
 
+
 def example_stream_time_app(event: StreamTimeEvent, api: Api, cache: Cache) -> list:
 
     # Here is where you can declare your variables from the argument event: StreamTimeEvent and start using Api, Cache and Logger functionalities. You can obtain key values directly from metadata in the stream app event without making any additional API requests.

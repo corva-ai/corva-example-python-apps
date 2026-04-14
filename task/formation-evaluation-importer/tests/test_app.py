@@ -146,7 +146,7 @@ def test_validate_index_curve_mnemonic(
     )
 
     las_file = lasio.LASFile()
-    las_file.add_curve(*curve)
+    las_file.append_curve(*curve)
 
     out = io.StringIO()
     las_file.write(out)

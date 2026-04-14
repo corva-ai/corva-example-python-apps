@@ -11,7 +11,14 @@ from lambda_function import lambda_handler
 
 def test_app(app_runner):
     event = TaskEvent(
-        company_id=1, asset_id=1234, properties={"timestamp": 1578291300}
+        company_id=1,
+        asset_id=1234,
+        properties={
+            "timestamp": 1578291300,
+            "discounted_revenue": 120,
+            "discounted_operating_costs": 20,
+            "drilling_and_completions_costs": 30,
+        },
     )
 
     with unittest.mock.patch.object(Api, 'post') as post_patch:
@@ -23,10 +30,12 @@ def test_app(app_runner):
             "asset_id": 1234,
             "company_id": 1,
             "provider": "test-provider",
-            "collection": "example-task-app",
+                "collection": "example-task-app",
             "data": {
-                "my_field": "test_value",
-                "my_new_field": "my_new_test_value"
+                "discounted_revenue": 120,
+                "discounted_operating_costs": 20,
+                "drilling_and_completions_costs": 30,
+                "npv": 70,
             },
             "version": 1,
             "timestamp": 1578291300

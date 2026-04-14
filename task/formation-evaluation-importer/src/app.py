@@ -9,7 +9,7 @@ from src.configuration import SETTINGS
 
 
 def formation_evaluation_importer(event: TaskEvent, api: Api) -> None:
-    properties = models.EventProperties.parse_obj(event.properties)
+    properties = models.EventProperties.model_validate(event.properties)
 
     try:
         # Delete old data. New data will be written to the db as a result of this app.
@@ -50,7 +50,7 @@ def formation_evaluation_importer(event: TaskEvent, api: Api) -> None:
     # fail in case of exception
     formation_evaluation_metadata_id = save_data(
         api=api,
-        data=[formation_evaluation_metadata.dict()],
+        data=[formation_evaluation_metadata.model_dump()],
         collection=SETTINGS.metadata_collection,
         provider=SETTINGS.provider,
     ).inserted_ids[0]
@@ -75,7 +75,7 @@ def formation_evaluation_importer(event: TaskEvent, api: Api) -> None:
                     ),
                     data=mapped_log_data,
                     version=SETTINGS.version,
-                ).dict()
+                ).model_dump()
             )
 
         save_data(

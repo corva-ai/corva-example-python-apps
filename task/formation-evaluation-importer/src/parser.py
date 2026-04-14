@@ -16,8 +16,8 @@ def parse_section(
 ) -> List[ParsedLasSectionRow]:
     return [
         ParsedLasSectionRow(
-            data=LasSectionRowData.parse_obj(row.__dict__),
-            mapping=LasSectionRowMapping.parse_obj(row.__dict__),
+            data=LasSectionRowData.model_validate(row.__dict__),
+            mapping=LasSectionRowMapping.model_validate(row.__dict__),
         )
         for row in section
     ]

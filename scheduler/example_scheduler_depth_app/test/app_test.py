@@ -1,9 +1,8 @@
 import unittest.mock
 
-from corva import Api, ScheduledDepthEvent, Cache
+from corva import Api, Cache, ScheduledDepthEvent
 
 from lambda_function import lambda_handler
-
 
 # Since we do not have a localhost API running we will mock our API requests with the help of unittest.mock built-in python library. 
 
